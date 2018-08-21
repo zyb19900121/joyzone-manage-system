@@ -9,7 +9,7 @@
 					<el-input v-model="loginFrom.password" placeholder="密码"></el-input>
 				</el-form-item>
 			</el-form>
-			<el-button type="primary" @click="login">登陆</el-button>
+			<el-button type="primary" @click="login">登 录</el-button>
 		</div>
 	</div>
 </template>
@@ -31,7 +31,9 @@ export default {
       userService
         .postRequest("login", this.loginFrom)
         .then(response => {
-          console.log("response: ", response);
+					console.log("response: ", response);
+					localStorage.setItem('MY_GAME_TOKEN',response.data.token)
+					this.$router.push({ name: 'index'});
         })
         .catch(error => {});
     }

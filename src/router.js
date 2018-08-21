@@ -7,6 +7,11 @@ export default new Router({
 	mode: 'history',
 	base: process.env.BASE_URL,
 	routes: [{
+			path: '*',
+			redirect: {
+				name: 'index'
+			}
+		}, {
 			path: '/login',
 			name: 'login',
 			meta: {
@@ -16,13 +21,13 @@ export default new Router({
 				import ( /* webpackChunkName: "about" */ 'views/Login.vue')
 		},
 		{
-			path: '/home',
-			name: 'home',
+			path: '/',
+			name: 'index',
 			meta: {
-				requireAuth: false
+				requireAuth: true
 			},
 			component: () =>
-				import ( /* webpackChunkName: "about" */ 'views/Home.vue')
+				import ( /* webpackChunkName: "about" */ 'views/Index.vue')
 		},
 		{
 			path: '/about',

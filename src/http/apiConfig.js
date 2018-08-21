@@ -6,13 +6,13 @@ const apiConfig = {
 	// 	method: 'POST',
 	// 	baseUrl
 	// }
-	register: { //获取菜单 RESTful api
-		url: '/api/game',
+	getGameList: { //获取菜单 RESTful api
+		url: '/manage/game',
 		method: 'GET',
 		baseUrl
 	},
 	login: { //用户登陆
-		url: '/api/login',
+		url: '/login',
 		method: 'POST',
 		baseUrl
 	}

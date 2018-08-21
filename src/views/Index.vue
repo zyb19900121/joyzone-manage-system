@@ -1,7 +1,13 @@
 <template>
-  <div class="home">
-    <h1>HOME</h1>
-  </div>
+ 	<el-container class="index">
+		<el-header>Header</el-header>
+		<el-container>
+			<el-aside width="200px">Aside</el-aside>
+			<el-main>
+				<router-view/>
+			</el-main>
+		</el-container>
+	</el-container>
 </template>
 
 <script>
@@ -14,10 +20,8 @@ export default {
   },
   methods: {
     getGameList() {
-			localStorage.setItem('MY_GAME_TOKEN','test token')
-
       userService
-        .getRequest("register", {isSold:1})
+        .getRequest("getGameList", {isSold:1})
         .then(response => {
           console.log("response: ", response);
         })

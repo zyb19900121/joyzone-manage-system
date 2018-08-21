@@ -16,7 +16,7 @@ axios.interceptors.request.use(
 	config => {
 		const token = localStorage.getItem('MY_GAME_TOKEN');
 		if (token) {
-			config.headers['Authorization'] = 'ZhangYanBin ' + token;
+			config.headers['Authorization'] = 'Bearer ' + token;
 		}
 		console.log('config: ', config);
 		return config;
@@ -37,7 +37,13 @@ axios.interceptors.response.use(
 				message: msg,
 				type: 'error'
 			});
-			
+			router.push('/login');
+		}else if(error.response.status === 401){
+			let msg = '请您先登录再进行操作'
+			Message({
+				message: msg,
+				type: 'error'
+			});
 			router.push('/login');
 		} else {
 			Message({
