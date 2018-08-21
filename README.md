@@ -1,16 +1,30 @@
 # my-game-system
+本项目是微信小程序myGame的后台管理系统，主要用于对小程序中是数据进行增删改查
 
-## Project setup
+框架：vue（利用vue-cli 3.0搭建）
+UI：[element-ui][element-ui]
+
+路由拦截的实现是利用全局的路由守卫根据localstorage中的token（用户登陆从后端获取，具体可以看本人的node项目）是否存在进行拦截
+
+http拦截的实现是将localstorage中的token放到请求的header中，在后端对token进行校验，如果token无效返回401
+
+未完待续。。。
+
+
+
+## 项目依赖安装
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### 项目运行
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### 项目打包
 ```
 npm run build
 ```
+
+[element-ui]: http://element-cn.eleme.io/2.4/#/zh-CN/component/installation 
