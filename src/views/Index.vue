@@ -3,8 +3,10 @@
 		<el-header>
 			<Header></Header>
 		</el-header>
-		<el-container>
-			<el-aside width="200px">Aside</el-aside>
+		<el-container style="height:100%">
+			<el-aside>
+				<Aside></Aside>
+			</el-aside>
 			<el-main>
 				<router-view/>
 			</el-main>
@@ -15,6 +17,7 @@
 <script>
 import userService from "http/userService";
 import Header from "components/Header";
+import Aside from "components/Aside";
 export default {
   name: "home",
   created() {
@@ -31,6 +34,6 @@ export default {
         .catch(error => {});
     }
   },
-  components: { Header }
+  components: { Header, Aside }
 };
 </script>
