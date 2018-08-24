@@ -14,7 +14,7 @@ body, html {
 	padding: 0px;
 
 	.el-menu {
-		padding-left: 250px;
+		padding: 0 250px;
 	}
 
 	.el-menu--horizontal>.el-submenu .el-submenu__icon-arrow {
@@ -33,5 +33,24 @@ body, html {
 	.el-menu-vertical-demo:not(.el-menu--collapse) {
 		width: 200px;
 		height: 100%;
+	}
+}
+
+// 子页面
+.el-container.sub-page {
+	height: 100%;
+	background: $color-background-main;
+
+	.el-header {
+		height: 40px;
+		border-bottom: 1px solid $color-border-p;
+	}
+
+	.el-main {
+		padding: 50px;
+	}
+
+	.el-footer {
+		border-top: 1px solid $color-border-p;
 	}
 }

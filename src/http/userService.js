@@ -1,6 +1,7 @@
 // import {config, errorCode, errorCodeByType, constans} from './config.js'
 import { apiConfig } from "./apiConfig.js";
 import ajax from "./ajax";
+import { Message } from "element-ui";
 /*
  所有用户的api
  */
@@ -24,6 +25,10 @@ class UserService {
         return this.resolve(response, type);
       }
     } catch (e) {
+      Message({
+        message: "系统错误，请联系开发人员",
+        type: "error"
+      });
       return Promise.reject(e); // 所有的错误从这返回调用者的catch
     }
   }
@@ -40,6 +45,10 @@ class UserService {
         return this.resolve(response, type);
       }
     } catch (e) {
+      Message({
+        message: "系统错误，请联系开发人员",
+        type: "error"
+      });
       return Promise.reject(e); // 所有的错误从这返回调用者的catch
     }
   }

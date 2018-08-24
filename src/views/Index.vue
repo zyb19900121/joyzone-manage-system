@@ -22,7 +22,7 @@ export default {
   name: "home",
   created() {
     console.log(process.env.NODE_ENV);
-    this.getGameList();
+    // this.getGameList();
   },
   methods: {
     getGameList() {

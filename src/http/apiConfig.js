@@ -9,16 +9,26 @@ const apiConfig = {
   // 	method: 'POST',
   // 	baseUrl
   // }
-  getGameList: {
-    //获取菜单 RESTful api
-    url: "/manage/game",
-    method: "GET",
-    baseUrl
-  },
+
+  //user接口
   login: {
     //用户登陆
     url: "/login",
     method: "POST",
+    baseUrl
+  },
+
+  //访问日志相关接口
+  getLogList: {
+    url: "/manage/log",
+    method: "GET",
+    baseUrl
+  },
+  // 游戏相关接口
+  getGameList: {
+    //获取游戏列表
+    url: "/manage/game",
+    method: "GET",
     baseUrl
   }
 };

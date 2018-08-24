@@ -4,6 +4,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import router from "./router";
 import store from "./store";
+import filter from "./utils/filter"; //全局filter
 
 import "src/assets/stylus/index.styl";
 
@@ -11,6 +12,7 @@ Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
 
+//路由拦截(查看localstorage中是否存有token)
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem("MY_GAME_TOKEN");
   if (to.meta.requireAuth) {
@@ -25,6 +27,11 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
+//注册全局filter
+for (const key in filter) {
+  Vue.filter(key, filter[key]);
+}
 
 new Vue({
   router,
