@@ -12,8 +12,9 @@ http拦截的实现是将localstorage中的token放到请求的header中，在�
 更新（2018-08-25）：
   
 	1.将子页面中的el-footer进行了封装并包含了分页功能，大量减少了重复的代码 具体可参考src/compnents/Subfooter
-	2.优化了登录页面的样式（利用vue-particles插件）
-  3.dsdf
+	2.对公司vue项目中UI部分进行了反思（当时写的较差），进而优化了本项目UI的整体布局
+	2.优化了登录页面的样式（利用vue-particles插件），后期还需再继续完善
+  
 	
 未完待续。。。
 
