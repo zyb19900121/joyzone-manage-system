@@ -1,17 +1,27 @@
 <template>
-	<div class="login">
-		<div class="login-info">
-			<el-form :model="loginFrom">
-				<el-form-item>
-					<el-input v-model="loginFrom.username" placeholder="用户名" @keyup.enter.native="login"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-input v-model="loginFrom.password" placeholder="密码" @keyup.enter.native="login"></el-input>
-				</el-form-item>
-			</el-form>
-			<el-button type="primary" @click="login">登 录</el-button>
+	<div class="login-container">
+		<vue-particles color="#dedede" :particleOpacity="0.7" :particlesNumber="80" shapeType="circle" :particleSize="4" linesColor="#dedede" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4" :linesDistance="150" :moveSpeed="3" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push">
+		</vue-particles>
+		<div class="login">
+			<div class="login-info">
+				<div class="title">
+
+				</div>
+				<div class="login-form">
+					<el-form ref="loginForm" :model="loginForm" :rules="rules">
+						<el-form-item prop="username">
+							<el-input v-model="loginForm.username" clearable placeholder="用户名" @keyup.enter.native="login"></el-input>
+						</el-form-item>
+						<el-form-item prop="password">
+							<el-input v-model="loginForm.password" clearable placeholder="密码" @keyup.enter.native="login"></el-input>
+						</el-form-item>
+						<el-button type="primary" @click="login">登 录</el-button>
+					</el-form>
+				</div>
+			</div>
 		</div>
 	</div>
+
 </template>
 
 <script type='es6'>
@@ -20,22 +30,33 @@ export default {
   name: "",
   data() {
     return {
-      loginFrom: {
+      loginForm: {
         username: "",
         password: ""
+      },
+      rules: {
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" }
+        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
     };
   },
   methods: {
     login() {
-      userService
-        .postRequest("login", this.loginFrom)
-        .then(response => {
-					console.log("response: ", response);
-					localStorage.setItem('MY_GAME_TOKEN',response.data.token)
-					this.$router.push({ name: 'index'});
-        })
-        .catch(error => {});
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          userService
+            .postRequest("login", this.loginForm)
+            .then(response => {
+              localStorage.setItem("MY_GAME_TOKEN", response.data.token);
+              this.$router.push({ name: "index" });
+            })
+            .catch(error => {});
+        } else {
+          return false;
+        }
+      });
     }
   }
 };
@@ -44,22 +65,46 @@ export default {
 <style lang='stylus' scoped>
 @import '~src/assets/stylus/variable.styl';
 
-.login {
+.login-container {
 	width: 100%;
 	height: 100%;
-	background: $color-border-p;
-	display: flex;
-	flex-flow: row;
-	justify-content: center;
-	align-items: center;
 
-	.login-info {
+	.login {
+		width: 100%;
+		height: 100%;
+		background: $color-border-p;
 		display: flex;
-		flex-flow: column;
-		padding: 40px;
-		border: 1px solid $color-border-p;
+		flex-flow: row;
 		justify-content: center;
 		align-items: center;
+
+		.login-info {
+			z-index: 9;
+			display: flex;
+			flex-flow: column;
+			// justify-content: center;
+			align-items: center;
+			width: 50%;
+			max-width: 500px;
+			height: 400px;
+			background: rgba(255, 255, 255, 0.2);
+			border-radius: 20px;
+
+			.title {
+				flex: 1;
+				width: 100%;
+				// height: 60%;
+			}
+
+			.login-form {
+				flex: 1;
+				width: 70%;
+
+				.el-button {
+					width: 100%;
+				}
+			}
+		}
 	}
 }
 </style>

@@ -10,6 +10,18 @@ body, html {
 	height: 100%;
 }
 
+/* ---- particles.js container ---- */
+#particles-js {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: lightslategrey;
+	background-image: url('../img/bg.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 50% 50%;
+}
+
 .el-header {
 	padding: 0px;
 
@@ -31,7 +43,6 @@ body, html {
 	}
 
 	.el-menu-vertical-demo:not(.el-menu--collapse) {
-		width: 200px;
 		height: 100%;
 	}
 }
@@ -41,16 +52,30 @@ body, html {
 	height: 100%;
 	background: $color-background-main;
 
+	.el-scrollbar__wrap {
+		overflow-x: hidden;
+	}
+
 	.el-header {
 		height: 40px;
 		border-bottom: 1px solid $color-border-p;
 	}
 
 	.el-main {
-		padding: 50px;
+		padding: 20px;
 	}
 
 	.el-footer {
 		border-top: 1px solid $color-border-p;
+		display: flex;
+		flex-flow: column;
+		justify-content: center;
+
+		.sub-footer {
+			display: flex;
+			flex-flow: row;
+			justify-content: space-between;
+			align-items: center;
+		}
 	}
 }

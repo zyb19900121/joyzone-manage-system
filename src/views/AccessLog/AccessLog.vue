@@ -3,7 +3,7 @@
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
 		</el-header>
-		<el-scrollbar style="height:100%">
+		<el-scrollbar style="height:100%;">
 			<el-main>
 				<el-table v-loading="loading" ref="multipleTable" :data="logList" border stripe tooltip-effect="dark" style="width: 100%">
 					<el-table-column type="selection" width="55">
@@ -20,43 +20,56 @@
 				</el-table>
 			</el-main>
 		</el-scrollbar>
-		<el-footer>Footer</el-footer>
+		<el-footer>
+			<SubFooter showPagination :total="logTotal*1" @refreshData="refreshData"></SubFooter>
+		</el-footer>
 	</el-container>
 </template>
 
 <script type='es6'>
 import userService from "http/userService";
 import SubHeader from "components/SubHeader";
+import SubFooter from "components/SubFooter";
 export default {
   name: "",
   data() {
     return {
       loading: false,
       pageTitle: "访问日志",
+      searchParams: {
+        pageSize: 15,
+        currentPage: 1
+      },
       logList: [],
+      logTotal: "",
       multipleSelection: []
     };
   },
   created() {
-    this.getLogList();
+    this.getLogList(this.searchParams);
   },
   methods: {
-    getLogList() {
+    getLogList(searchParams) {
       this.loading = true;
       userService
-        .getRequest("getLogList")
+        .getRequest("getLogList", searchParams)
         .then(response => {
           console.log("response: ", response);
-          this.logList = response.data;
+          this.logList = response.data.list;
+          this.logTotal = response.data.total;
           this.loading = false;
         })
         .catch(error => {
-					console.log('error: ', error);
-				});
+          console.log("error: ", error);
+        });
+    },
+    refreshData(searchParams) {
+			this.getLogList(searchParams)
     }
   },
   components: {
-    SubHeader
+    SubHeader,
+    SubFooter
   }
 };
 </script>

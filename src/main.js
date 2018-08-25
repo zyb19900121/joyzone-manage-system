@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
+import VueParticles from "vue-particles";
 import router from "./router";
 import store from "./store";
 import filter from "./utils/filter"; //全局filter
@@ -11,6 +12,7 @@ import "src/assets/stylus/index.styl";
 Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
+Vue.use(VueParticles);
 
 //路由拦截(查看localstorage中是否存有token)
 router.beforeEach((to, from, next) => {
