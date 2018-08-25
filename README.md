@@ -8,6 +8,8 @@ UI：[element-ui][element-ui]
 
 http拦截的实现是将localstorage中的token放到请求的header中，在后端对token进行校验，如果token无效返回401
 
+将子页面中的el-footer进行了封装并包含了分页功能，大量减少了重复的代码 具体可参考src/compnents/Subfooter
+
 未完待续。。。
 
 
