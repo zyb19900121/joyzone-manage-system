@@ -1,57 +1,55 @@
-import axios from 'axios'
-import qs from 'qs'
-import router from 'src/router'
-import {
-	Message
-} from 'element-ui'
+import axios from "axios";
+import qs from "qs";
+import router from "src/router";
+import { Message } from "element-ui";
 
 //是否携带cookie
 // axios.defaults.withCredentials = true
 //设置默认请求头
 axios.defaults.headers = {
-	'X-Requested-With': 'XMLHttpRequest'
-}
+  "X-Requested-With": "XMLHttpRequest"
+};
 
 axios.interceptors.request.use(
-	config => {
-		const token = localStorage.getItem('MY_GAME_TOKEN');
-		if (token) {
-			config.headers['Authorization'] = 'Bearer ' + token;
-		}
-		return config;
-	},
-	error => {
-		return Promise.reject(error);
-	}
+  config => {
+    const token = localStorage.getItem("MY_GAME_TOKEN");
+    if (token) {
+      config.headers["Authorization"] = "Bearer " + token;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
 );
 
 axios.interceptors.response.use(
-	response => {
-		return response;
-	},
-	error => {
-		if (error.response.status === 403) {
-			let msg = error.response.data.msg || '您的登录信息已失效，请重新登录'
-			Message({
-				message: msg,
-				type: 'error'
-			});
-			router.push('/login');
-		}else if(error.response.status === 401){
-			let msg = '请您先登录再进行操作'
-			Message({
-				message: msg,
-				type: 'error'
-			});
-			router.push('/login');
-		} else {
-			Message({
-				message: '系统错误，请联系开发人员',
-				type: 'error'
-			});
-		}
-		return Promise.reject(error);
-	}
+  response => {
+    return response;
+  },
+  error => {
+    if (error.response.status === 403) {
+      let msg = error.response.data.msg || "您的登录信息已失效，请重新登录";
+      Message({
+        message: msg,
+        type: "error"
+      });
+      router.push("/login");
+    } else if (error.response.status === 401) {
+      let msg = "请您先登录再进行操作";
+      Message({
+        message: msg,
+        type: "error"
+      });
+      router.push("/login");
+    } else {
+      Message({
+        message: "系统错误，请联系开发人员",
+        type: "error"
+      });
+    }
+    return Promise.reject(error);
+  }
 );
 
 // function checkStatus(response) {
@@ -76,27 +74,39 @@ axios.interceptors.response.use(
 // }
 
 export default {
-	get(url, params, baseURL) {
-		let config = {
-			method: 'get',
-			url,
-			baseURL: baseURL,
-			params,
-			timeout: 30000,
-			responseType: 'json'
-		}
-		return axios.get(url, config)
+  get(url, params, baseURL) {
+    let config = {
+      method: "get",
+      url,
+      baseURL: baseURL,
+      params,
+      timeout: 30000,
+      responseType: "json"
+    };
+    return axios.get(url, config);
+  },
+  post(url, data, baseURL) {
+    let config = {
+      method: "post",
+      url,
+      baseURL: baseURL,
+      data: qs.stringify(data),
+      timeout: 30000,
+      responseType: "json",
+      headers: { "Content-Type": "application/json; charset=UTF-8" }
+    };
+    return axios.post(url, data, config);
 	},
-	post(url, data, baseURL) {
-		let config = {
-			method: 'post',
-			url,
-			baseURL: baseURL,
-			data: qs.stringify(data),
-			timeout: 30000,
-			responseType: 'json',
-			headers: {'Content-Type': 'application/json; charset=UTF-8'},
-		}
-		return axios.post(url, data, config)
-	}
-}
+	
+	//对Restful api做了相应调整， url/1,2,3,4,5
+  delete(url, params, baseURL) {
+    let config = {
+      method: "delete",
+      url,
+      baseURL: baseURL,
+      timeout: 30000,
+      responseType: "json"
+		};
+    return axios.delete(`${url}/${params}`, config);
+  }
+};

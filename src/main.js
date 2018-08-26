@@ -23,8 +23,6 @@ router.beforeEach((to, from, next) => {
     } else {
       next("/login");
     }
-  } else if (!to.meta.requireAuth && token) {
-    next("/index");
   } else {
     next();
   }

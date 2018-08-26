@@ -1,6 +1,8 @@
 <template>
 	<div class="sub-footer">
-		<div></div>
+		<div class="operation-area">
+			<el-button v-if=showDelete type="text" @click="handleDelete">删除</el-button>
+		</div>
 		<!-- layout="total, sizes, prev, pager, next" 全部元素 -->
 		<el-pagination v-if="showPagination" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="searchParams.currentPage" :page-sizes="[15, 30, 60, 120]" :page-size="searchParams.pageSize" layout="prev, pager, next" :total="total">
 		</el-pagination>
@@ -11,6 +13,10 @@
 export default {
   name: "",
   props: {
+    showDelete: {
+      type: Boolean,
+      default: false
+    },
     showPagination: {
       type: Boolean,
       default: false
@@ -22,20 +28,23 @@ export default {
   },
   data() {
     return {
-			searchParams:{
-				currentPage: 1,
-				pageSize: 15
-			}
+      searchParams: {
+        currentPage: 1,
+        pageSize: 15
+      }
     };
   },
   methods: {
     handleSizeChange(val) {
-			this.searchParams.pageSize = val;
-			this.$emit('refreshData',this.searchParams)
+      this.searchParams.pageSize = val;
+      this.$emit("refreshData", this.searchParams);
     },
     handleCurrentChange(val) {
       this.searchParams.currentPage = val;
-      this.$emit('refreshData',this.searchParams)
+      this.$emit("refreshData", this.searchParams);
+    },
+    handleDelete() {
+      this.$emit("handleDelete");
     }
   }
 };
