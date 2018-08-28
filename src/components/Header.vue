@@ -6,7 +6,7 @@
 			<el-menu-item index="2-2">选项2</el-menu-item>
 			<el-menu-item index="2-3">选项3</el-menu-item>
 		</el-submenu>
-		<el-menu-item index="3">评论管理</el-menu-item>
+		<el-menu-item index="/commentManage">评论管理</el-menu-item>
 		<el-menu-item index="/accessLog">访问日志</el-menu-item>
 		<el-menu-item index="/aboutUs">关于我们</el-menu-item>
 		<el-submenu class="last-menu" index="5">

@@ -13,15 +13,16 @@ export default new Router({
         name: "index"
       }
     },
-    {
+    {	//登录页面
       path: "/login",
       name: "login",
       meta: {
         requireAuth: false
       },
-      component: () => import(/* webpackChunkName: "myGame" */ "views/Login.vue")
+      component: () =>
+        import(/* webpackChunkName: "myGame" */ "views/Login.vue")
     },
-    {
+    {	//首页
       path: "/",
       name: "index",
       meta: {
@@ -30,7 +31,8 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "myGame" */ "views/Index.vue"),
       children: [
-        {
+        {	
+					//访问日志
           path: "accessLog",
           name: "accessLog",
           component: () =>
@@ -38,8 +40,18 @@ export default new Router({
           meta: {
             requireAuth: true
           }
-				},
-				{
+        },
+        {
+					//评论管理
+          path: "commentManage",
+          name: "commentManage",
+          component: () =>
+            import(/* webpackChunkName: "myGame" */ "views/CommentManage/CommentManage.vue"),
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
           path: "aboutUs",
           name: "aboutUs",
           component: () =>

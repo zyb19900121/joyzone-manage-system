@@ -16,9 +16,16 @@ const apiConfig = {
     url: "/login",
     method: "POST",
     baseUrl
+	},
+	/*----------------------------------------评论管理相关接口-----------------------------------------*/ 
+	getGameCommentList: {
+    //获取评论列表
+    url: "/manage/gameComment",
+    method: "GET",
+    baseUrl
   },
 
-  //访问日志相关接口
+	/*----------------------------------------访问日志相关接口-----------------------------------------*/ 
   getLogList: {
     //获取日志列表
     url: "/manage/log",
@@ -30,8 +37,9 @@ const apiConfig = {
     url: "/manage/log",
     method: "DELETE",
     baseUrl
-  },
-  // 游戏相关接口
+	},
+	
+	/*----------------------------------------游戏管理相关接口-----------------------------------------*/ 
   getGameList: {
     //获取游戏列表
     url: "/manage/game",
