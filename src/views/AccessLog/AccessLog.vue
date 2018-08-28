@@ -14,7 +14,7 @@
 					</el-table-column>
 					<el-table-column prop="phone_system" label="手机系统">
 					</el-table-column>
-					<el-table-column label="访问时间" show-overflow-tooltip>
+					<el-table-column label="访问时间" show-overflow-tooltip width="200">
 						<template slot-scope="scope">{{ scope.row.visit_date | formatDate }}</template>
 					</el-table-column>
 					<el-table-column label="操作" width="80">
