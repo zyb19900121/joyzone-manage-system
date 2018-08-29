@@ -74,7 +74,44 @@ export default {
       this.searchParams = searchParams;
       this.getGameCommentList(searchParams);
     },
-    handleDelete() {},
+    handleDelete(log) {
+      let ids = [];
+      if (!log) {
+        this.multipleSelection.length &&
+          this.multipleSelection.map(item => {
+            ids.push(item.id);
+          });
+      }
+      let idsLength = ids.length;
+      ids = ids.length ? ids.join(",") : log.id;
+      console.log("ids: ", ids);
+
+      this.$confirm("您确定是否要删除此记录?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          userService
+            .deleteRequest("deleteGameComments", ids)
+            .then(response => {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+              if (
+                idsLength === this.commentList.length &&
+                this.searchParams.currentPage > 1
+              ) {
+                this.searchParams.currentPage =
+                  this.searchParams.currentPage - 1;
+              }
+              this.getGameCommentList(this.searchParams);
+            })
+            .catch(error => {});
+        })
+        .catch(() => {});
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     }

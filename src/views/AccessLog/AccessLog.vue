@@ -79,19 +79,33 @@ export default {
       }
       let idsLength = ids.length;
       ids = ids.length ? ids.join(",") : log.id;
-      userService
-        .deleteRequest("deleteLogs", ids)
 
-        .then(response => {
-          if (
-            idsLength === this.logList.length &&
-            this.searchParams.currentPage > 1
-          ) {
-            this.searchParams.currentPage = this.searchParams.currentPage - 1;
-          }
-          this.getLogList(this.searchParams);
+      this.$confirm("您确定是否要删除此记录?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          userService
+            .deleteRequest("deleteLogs", ids)
+
+            .then(response => {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+              if (
+                idsLength === this.logList.length &&
+                this.searchParams.currentPage > 1
+              ) {
+                this.searchParams.currentPage =
+                  this.searchParams.currentPage - 1;
+              }
+              this.getLogList(this.searchParams);
+            })
+            .catch(error => {});
         })
-        .catch(error => {});
+        .catch(() => {});
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -106,5 +120,4 @@ export default {
 
 <style lang='stylus' scoped>
 @import '~src/assets/stylus/variable.styl';
-
 </style>

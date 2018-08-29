@@ -23,6 +23,13 @@ const apiConfig = {
     url: "/manage/gameComment",
     method: "GET",
     baseUrl
+	},
+	
+	deleteGameComments: {
+    //获取评论列表
+    url: "/manage/gameComment",
+    method: "DELETE",
+    baseUrl
   },
 
 	/*----------------------------------------访问日志相关接口-----------------------------------------*/ 
