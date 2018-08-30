@@ -20,6 +20,12 @@ http拦截的实现是将localstorage中的token放到请求的header中，在�
 	1.实现了对log列表的单条删除和多条删除（封装在了Subfooter组件中），因接口是RESTful风格，
 	所以稍微修改了下参数的传输方式 axios.delete(`${url}/${params}`, config) 
 	整个实现流程需要注意的有一个地方，当列表全选且不是列表的第一页执行多条记录的删除时，得将查询参数中的currentPage - 1。
+	
+更新（2018-08-30）：
+  
+	1.实现评论列表 （筛选、列表项待完善）
+	2.封装列表条件查询组件（conditionFilter）
+	3.实现评论和访问日志的的时间段筛选（如根据条件查询 应调用subFoot组件中的ininPageConfig方法来重置分页参数）
 
   
 未完待续。。。
