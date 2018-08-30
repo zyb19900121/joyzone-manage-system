@@ -2,13 +2,14 @@
 	<el-container class="sub-page comment-manage">
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
+			<ConditionFilter showDatePicker @refreshData="refreshData"></ConditionFilter>
 		</el-header>
 		<el-scrollbar style="height:100%;">
 			<el-main>
 				<el-table v-loading="loading" ref="multipleTable" :data="commentList" @selection-change="handleSelectionChange" border stripe tooltip-effect="light" style="width: 100%">
 					<el-table-column type="selection" width="55">
 					</el-table-column>
-					<el-table-column prop="username" label="用户姓名" width="120">
+					<el-table-column prop="username" label="用户姓名" width="160">
 					</el-table-column>
 					<el-table-column label="用户头像" width="100">
 						<template slot-scope="scope">
@@ -31,7 +32,7 @@
 			</el-main>
 		</el-scrollbar>
 		<el-footer>
-			<SubFooter showDelete showPagination :total="commentTotal*1" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
+			<SubFooter ref="subFooter" showDelete showPagination :total="commentTotal*1" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
 		</el-footer>
 	</el-container>
 </template>
@@ -40,6 +41,7 @@
 import userService from "http/userService";
 import SubHeader from "components/SubHeader";
 import SubFooter from "components/SubFooter";
+import ConditionFilter from "components/ConditionFilter";
 export default {
   name: "",
   data() {
@@ -70,9 +72,11 @@ export default {
         })
         .catch(error => {});
     },
-    refreshData(searchParams) {
-      this.searchParams = searchParams;
-      this.getGameCommentList(searchParams);
+    refreshData(searchParams, isConditionSearch) {
+			//如果是根据条件查询触发的此方法 应调用subFoot组件中的ininPageConfig方法来初始化分页参数
+      Object.assign(this.searchParams, searchParams);
+			this.getGameCommentList(this.searchParams);
+			isConditionSearch && this.$refs.subFooter.ininPageConfig();
     },
     handleDelete(log) {
       let ids = [];
@@ -118,7 +122,8 @@ export default {
   },
   components: {
     SubHeader,
-    SubFooter
+		SubFooter,
+		ConditionFilter
   }
 };
 </script>

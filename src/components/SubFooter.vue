@@ -45,6 +45,12 @@ export default {
     },
     handleDelete() {
       this.$emit("handleDelete");
+    },
+    ininPageConfig() {
+      this.searchParams = {
+        currentPage: 1,
+        pageSize: 15
+      };
     }
   }
 };

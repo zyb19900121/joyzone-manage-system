@@ -2,6 +2,7 @@
 	<el-container class="sub-page access-log">
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
+			<ConditionFilter showDatePicker @refreshData="refreshData"></ConditionFilter>
 		</el-header>
 		<el-scrollbar style="height:100%;">
 			<el-main>
@@ -26,7 +27,7 @@
 			</el-main>
 		</el-scrollbar>
 		<el-footer>
-			<SubFooter showDelete showPagination :total="logTotal*1" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
+			<SubFooter ref="subFooter" showDelete showPagination :total="logTotal*1" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
 		</el-footer>
 	</el-container>
 </template>
@@ -35,6 +36,7 @@
 import userService from "http/userService";
 import SubHeader from "components/SubHeader";
 import SubFooter from "components/SubFooter";
+import ConditionFilter from "components/ConditionFilter";
 export default {
   name: "",
   data() {
@@ -43,7 +45,9 @@ export default {
       pageTitle: "访问日志",
       searchParams: {
         pageSize: 15,
-        currentPage: 1
+        currentPage: 1,
+        startDate: "",
+        endDate: ""
       },
       logList: [],
       logTotal: "",
@@ -65,9 +69,11 @@ export default {
         })
         .catch(error => {});
     },
-    refreshData(searchParams) {
-      this.searchParams = searchParams;
-      this.getLogList(searchParams);
+    refreshData(searchParams, isConditionSearch) {
+			//如果是根据条件查询触发的此方法 应调用subFoot组件中的ininPageConfig方法来初始化分页参数
+      Object.assign(this.searchParams, searchParams);
+      this.getLogList(this.searchParams);
+      isConditionSearch && this.$refs.subFooter.ininPageConfig();
     },
     handleDelete(log) {
       let ids = [];
@@ -113,7 +119,8 @@ export default {
   },
   components: {
     SubHeader,
-    SubFooter
+    SubFooter,
+    ConditionFilter
   }
 };
 </script>

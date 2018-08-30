@@ -1,5 +1,5 @@
 <template>
-	<div class="search-header">
+	<div class="sub-header">
 		<h1>{{pageTitle}}</h1>
 	</div>
 </template>
@@ -22,9 +22,8 @@ export default {
 <style lang='stylus' scoped>
 @import '~src/assets/stylus/variable.styl';
 
-.search-header {
-	padding: 0 20px;
-	height: 60px;
-	line-height: 60px;
+.sub-header {
+	padding: 20px 20px 0 20px;
+
 }
 </style>
