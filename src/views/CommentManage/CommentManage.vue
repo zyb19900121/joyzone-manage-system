@@ -9,14 +9,14 @@
 				<el-table v-loading="loading" ref="multipleTable" :data="commentList" @selection-change="handleSelectionChange" border stripe tooltip-effect="light" style="width: 100%">
 					<el-table-column type="selection" width="55">
 					</el-table-column>
-					<el-table-column prop="username" label="用户姓名" width="160">
+					<el-table-column prop="username" show-overflow-tooltip label="用户姓名" width="160">
 					</el-table-column>
 					<el-table-column label="用户头像" width="100">
 						<template slot-scope="scope">
 							<img :src="scope.row.user_avatar" alt="" width="30" height="30">
 						</template>
 					</el-table-column>
-					<el-table-column prop="game_id" label="游戏名称" width="120">
+					<el-table-column prop="game_name" show-overflow-tooltip label="游戏名称" width="200">
 					</el-table-column>
 					<el-table-column prop="comment_content" label="评论内容">
 					</el-table-column>
