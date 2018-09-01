@@ -1,5 +1,13 @@
 <template>
 	<div class="condition-filter">
+		<div v-if="showSelect" class="select">
+			<span class="select-label">{{selectName}}</span>
+			<el-select v-model="selectValue" placeholder="请选择" clearable>
+				<el-option v-for="(item,index) in selectionOptions" :key="index" :label="item.game_name" :value="item.id">
+				</el-option>
+			</el-select>
+		</div>
+
 		<el-date-picker v-if="showDatePicker" v-model="dateRange" value-format="yyyy-MM-dd HH:mm:ss" :default-time="['00:00:00', '23:59:59']" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
 		</el-date-picker>
 	</div>
@@ -12,10 +20,24 @@ export default {
     showDatePicker: {
       type: Boolean,
       default: false
+    },
+    showSelect: {
+      type: Boolean,
+      default: false
+    },
+    selectName: {
+      type: String,
+      default: ""
+    },
+    selectionOptions: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
+      selectValue: "",
+
       dateRange: "",
       startDate: "",
       endDate: ""
@@ -36,9 +58,25 @@ export default {
         endDate: this.endDate,
         currentPage: 1,
         pageSize: 15
-			};
-			let isConditionSearch = true;
-      this.$emit("refreshData", searchParams,isConditionSearch);
+      };
+      let isConditionSearch = true;
+      this.$emit("refreshData", searchParams, isConditionSearch);
+    },
+    selectValue(newVal) {
+      console.log("newVal: ", newVal);
+      if (newVal) {
+        this.startDate = newVal[0];
+      } else {
+        this.startDate = "";
+        this.endDate = "";
+      }
+      let searchParams = {
+        gameId: this.selectValue,
+        currentPage: 1,
+        pageSize: 15
+      };
+      let isConditionSearch = true;
+      this.$emit("refreshData", searchParams, isConditionSearch);
     }
   }
 };
@@ -51,6 +89,13 @@ export default {
 	padding: 20px 20px;
 	display: flex;
 	flex-flow: row;
-	justify-content: flex-end;
+	justify-content: space-between;
+
+	.select {
+		.select-label {
+			color: $color-text-t;
+			font-size: $font-size-small;
+		}
+	}
 }
 </style>

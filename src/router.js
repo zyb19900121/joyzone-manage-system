@@ -10,7 +10,7 @@ export default new Router({
     {
       path: "*",
       redirect: {
-        name: "index"
+        path: "/gameManage"
       }
     },
     {	//登录页面
@@ -31,6 +31,16 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "myGame" */ "views/Index.vue"),
       children: [
+				{
+					//评论管理
+          path: "gameManage",
+          name: "gametManage",
+          component: () =>
+            import(/* webpackChunkName: "myGame" */ "views/GameManage/GameManage.vue"),
+          meta: {
+            requireAuth: true
+          }
+        },
         {	
 					//访问日志
           path: "accessLog",

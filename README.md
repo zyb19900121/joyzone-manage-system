@@ -27,6 +27,11 @@ http拦截的实现是将localstorage中的token放到请求的header中，在�
 	2.封装列表条件查询组件（conditionFilter）
 	3.实现评论和访问日志的的时间段筛选（如根据条件查询 应调用subFoot组件中的ininPageConfig方法来重置分页参数）
 
+更新（2018-09-01）：
+  
+	1.实现根据游戏对评论列表进行筛选（conditionFilter）
+	2.优化侧边栏样式及路由
+
   
 未完待续。。。
 

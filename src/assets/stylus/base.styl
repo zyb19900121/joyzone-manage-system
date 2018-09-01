@@ -23,6 +23,15 @@ body, html {
 	overflow: hidden;
 }
 
+// 阿里图标
+.iconfont {
+	margin-right: 5px;
+	width: 24px;
+	text-align: center;
+	font-size: 22px;
+	vertical-align: middle;
+}
+
 .el-header {
 	padding: 0px;
 
@@ -37,10 +46,32 @@ body, html {
 
 .el-aside {
 	height: 100%;
-	width: 200px !important;
+	width: auto !important;
+	// min-width 200px !important
+	max-width: 300px !important;
 
 	.aside {
 		height: 100%;
+		position: relative;
+
+		.el-menu-vertical-demo {
+			height: 100%;
+		}
+
+		.el-menu-vertical-demo:not(.el-menu--collapse) {
+			width: 200px;
+		}
+
+		.menu-collapse {
+			position: absolute;
+			bottom: 5px;
+			right: 12px;
+
+			.iconfont {
+				font-size: 32px;
+				color: $color-text-f;
+			}
+		}
 	}
 
 	.el-menu-vertical-demo:not(.el-menu--collapse) {

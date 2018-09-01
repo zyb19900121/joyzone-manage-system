@@ -50,7 +50,7 @@ export default {
             .postRequest("login", this.loginForm)
             .then(response => {
               localStorage.setItem("MY_GAME_TOKEN", response.data.token);
-              this.$router.push({ name: "index" });
+              this.$router.push({ path: "/gameManage" });
             })
             .catch(error => {});
         } else {

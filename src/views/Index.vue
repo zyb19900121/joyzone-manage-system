@@ -27,7 +27,7 @@ export default {
   methods: {
     getGameList() {
       userService
-        .getRequest("getGameList", { isSold: 1 })
+        .getRequest("getGameList", { isSold: 1 , isFilter: 1})
         .then(response => {
           console.log("response: ", response);
         })

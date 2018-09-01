@@ -30,7 +30,8 @@ module.exports = {
       .set("src", resolve("src"))
       .set("http", resolve("src/http"))
       .set("views", resolve("src/views"))
-      .set("components", resolve("src/components"));
+			.set("components", resolve("src/components"))
+			.set("utils", resolve("src/utils"));
   },
 
   devServer: {
