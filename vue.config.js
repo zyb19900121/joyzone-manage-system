@@ -6,7 +6,9 @@ function resolve(dir) {
 }
 
 module.exports = {
-  // 选项...
+	// 选项...
+	
+
 
   pages: {
     index: {
@@ -32,7 +34,9 @@ module.exports = {
       .set("views", resolve("src/views"))
 			.set("components", resolve("src/components"))
 			.set("utils", resolve("src/utils"));
-  },
+	},
+	
+	productionSourceMap: false,
 
   devServer: {
     open: process.platform === "darwin",

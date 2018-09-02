@@ -1,6 +1,6 @@
 <template>
 	<div class="aside">
-		<el-menu :default-active="$route.path" :collapse-transition=false router class="el-menu-vertical-demo" :collapse="isCollapse" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+		<el-menu :default-active="$route.matched[1].path" :collapse-transition=false router class="el-menu-vertical-demo" :collapse="isCollapse" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
 			<el-submenu index="1">
 				<template slot="title">
 					<i class="iconfont icon-game"></i>

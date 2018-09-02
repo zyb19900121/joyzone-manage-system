@@ -13,7 +13,8 @@ export default new Router({
         path: "/gameManage"
       }
     },
-    {	//登录页面
+    {
+      //登录页面
       path: "/login",
       name: "login",
       meta: {
@@ -22,27 +23,66 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "myGame" */ "views/Login.vue")
     },
-    {	//首页
+    {
+      //首页
       path: "/",
       name: "index",
       meta: {
         requireAuth: true
       },
+      redirect: {
+        name: "gameManage"
+      },
       component: () =>
         import(/* webpackChunkName: "myGame" */ "views/Index.vue"),
       children: [
-				{
-					//评论管理
+        {
+          //游戏管理
           path: "gameManage",
-          name: "gametManage",
+          name: "gameManage",
           component: () =>
             import(/* webpackChunkName: "myGame" */ "views/GameManage/GameManage.vue"),
           meta: {
             requireAuth: true
+					},
+					redirect: {
+						name: "gameList"
+					},
+          children: [
+            {
+              //游戏列表
+              path: "gameList",
+              name: "gameList",
+              component: () =>
+                import(/* webpackChunkName: "myGame" */ "views/GameManage/GameList.vue"),
+              meta: {
+                requireAuth: true
+              }
+						},
+						{
+              //添加游戏
+              path: "addGame",
+              name: "addGame",
+              component: () =>
+                import(/* webpackChunkName: "myGame" */ "views/GameManage/AddGame.vue"),
+              meta: {
+                requireAuth: true
+              }
+            }
+          ]
+        },
+        {
+          //添加游戏
+          path: "addGame",
+          name: "addGame",
+          component: () =>
+            import(/* webpackChunkName: "myGame" */ "views/GameManage/AddGame.vue"),
+          meta: {
+            requireAuth: true
           }
         },
-        {	
-					//访问日志
+        {
+          //访问日志
           path: "accessLog",
           name: "accessLog",
           component: () =>
@@ -52,7 +92,7 @@ export default new Router({
           }
         },
         {
-					//评论管理
+          //评论管理
           path: "commentManage",
           name: "commentManage",
           component: () =>

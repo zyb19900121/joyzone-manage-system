@@ -1,5 +1,6 @@
 <template>
-	<el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router background-color="#409EFF" text-color="#fff" active-text-color="#ffd04b" @select="handleSelect">
+	<el-menu :default-active="$route.matched[1].path" class="el-menu-demo" mode="horizontal" router background-color="#409EFF" text-color="#fff" active-text-color="#ffd04b" @select="handleSelect">
+		<img class="logo" src="../assets/img/logo_top.png" alt="" srcset="">
 		<el-submenu index="1">
 			<template slot="title">游戏管理</template>
 			<el-menu-item index="/gameManage">游戏库</el-menu-item>
@@ -21,12 +22,12 @@
 export default {
   name: "",
   data() {
-    return {
-      // activeIndex: "1"
-    };
+    return {};
   },
   methods: {
     handleSelect(key, keyPath) {
+      this.$route.path;
+      console.log("this.$route.path: ", this.$route);
       console.log(key, keyPath);
       if (key == "5-2") {
         localStorage.removeItem("MY_GAME_TOKEN");
@@ -40,5 +41,12 @@ export default {
 <style lang='stylus' scoped>
 .last-menu {
 	float: right;
+}
+
+.logo {
+	height: 60px;
+	width: auto;
+	position: absolute;
+	left: 10px;
 }
 </style>

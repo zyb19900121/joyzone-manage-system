@@ -1,6 +1,12 @@
 <template>
+
 	<div class="condition-filter">
-		<div v-if="showSelect" class="select">
+
+		<div class="add-btn" v-if="showAddBtn">
+			<el-button type="primary" @click="handleAddBtn">{{addBtnName}}</el-button>
+		</div>
+
+		<div class="select" v-if="showSelect">
 			<span class="select-label">{{selectName}}</span>
 			<el-select v-model="selectValue" placeholder="请选择" clearable>
 				<el-option v-for="(item,index) in selectionOptions" :key="index" :label="item.game_name" :value="item.id">
@@ -17,6 +23,14 @@
 export default {
   name: "",
   props: {
+    showAddBtn: {
+      type: Boolean,
+      default: false
+    },
+    addBtnName: {
+      type: String,
+      default: ""
+    },
     showDatePicker: {
       type: Boolean,
       default: false
@@ -77,6 +91,11 @@ export default {
       };
       let isConditionSearch = true;
       this.$emit("refreshData", searchParams, isConditionSearch);
+    }
+  },
+  methods: {
+    handleAddBtn() {
+      this.$emit("addGame");
     }
   }
 };
