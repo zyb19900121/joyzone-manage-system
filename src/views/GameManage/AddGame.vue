@@ -9,7 +9,7 @@
 			</el-main>
 		</el-scrollbar>
 		<el-footer>
-			<SubFooter ref="subFooter"></SubFooter>
+			<SubFooter showSave showCancel ref="subFooter"></SubFooter>
 		</el-footer>
 	</el-container>
 </template>

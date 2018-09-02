@@ -1,20 +1,36 @@
 <template>
-	<div v-html="myMarkDown">
-	</div>
+
+	<el-container class="sub-page about-us">
+		<el-header>
+			<SubHeader :pageTitle="pageTitle"></SubHeader>
+		</el-header>
+		<el-scrollbar style="height:100%;">
+			<el-main>
+				<div v-html="myMarkDown">
+				</div>
+			</el-main>
+		</el-scrollbar>
+		<el-footer>
+			<!-- <SubFooter showSave showCancel ref="subFooter"></SubFooter> -->
+		</el-footer>
+	</el-container>
 </template>
 
 <script type='es6'>
+import SubHeader from "components/SubHeader";
+import SubFooter from "components/SubFooter";
 import showdown from "showdown";
 export default {
   name: "",
   data() {
     return {
-      myMarkDown: ``
+      pageTitle: "关于我们",
+      myMarkDown: ""
     };
   },
   created() {
     let converter = new showdown.Converter();
-		let text = `
+    let text = `
 			my-game-system
 		
 
@@ -31,7 +47,38 @@ export default {
 			http拦截的实现是将localstorage中的token放到请求的header中，在后端对token进行校验，如果token无效返回401
 
 
-			未完待续。。。
+			更新（2018-08-25）：
+  
+				1.将子页面中的el-footer进行了封装并包含了分页功能，大量减少了重复的代码 具体可参考src/compnents/Subfooter
+				2.对公司vue项目中UI部分进行了反思（当时写的较差），进而优化了本项目UI的整体布局
+				3.优化了登录页面的样式（利用vue-particles插件），后期还需再继续完善
+
+
+			小更新（2018-08-26）：
+  
+				1.实现了对log列表的单条删除和多条删除（封装在了Subfooter组件中），因接口是RESTful风格，
+				所以稍微修改了下参数的传输方式
+				整个实现流程需要注意的有一个地方，当列表全选且不是列表的第一页执行多条记录的删除时，得将查询参数中的currentPage - 1。
+	
+
+			更新（2018-08-30）：
+  
+				1.实现评论列表 （筛选、列表项待完善）
+				2.封装列表条件查询组件（conditionFilter）
+				3.实现评论和访问日志的的时间段筛选（如根据条件查询 应调用subFoot组件中的ininPageConfig方法来重置分页参数）
+
+
+			更新（2018-09-01）：
+				
+				1.实现根据游戏对评论列表进行筛选（conditionFilter）
+				2.优化侧边栏样式及路由
+
+
+			重要更新（2018-09-02）：
+				
+				1.给这一套项目起了个名字（很早就有这个打算，无奈一直没有什么灵感，正好今天是跟媳妇在一起520天，就结合我俩名字首字母起个吧）。
+				2.媳妇帮忙给做了个logo，先凑合用吧，哈哈，反正就我自己看。
+				3.优化路由、增加添加游戏路由（本计划这个周末写完的，谁料这改改那修修的时间就这么过去了，争取下周一到周五抽时间给完成的）。
 
 
 			项目依赖安装
@@ -51,7 +98,11 @@ export default {
 			`;
     let html = converter.makeHtml(text);
     this.myMarkDown = html;
-  }
+	},
+	components:{
+		SubHeader,
+		SubFooter
+	}
 };
 </script>
 

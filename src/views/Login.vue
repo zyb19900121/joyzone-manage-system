@@ -5,12 +5,12 @@
 		<div class="login">
 			<div class="login-info">
 				<div class="title">
-
+					<img class="logo" src="../assets/img/logo_top.png" alt="">
 				</div>
 				<div class="login-form">
 					<el-form ref="loginForm" :model="loginForm" :rules="rules">
 						<el-form-item prop="username">
-							<el-input v-model="loginForm.username" clearable placeholder="用户名" @keyup.enter.native="login"></el-input>
+							<el-input v-model="loginForm.username" clearable placeholder="用户名"></el-input>
 						</el-form-item>
 						<el-form-item prop="password">
 							<el-input v-model="loginForm.password" clearable placeholder="密码" @keyup.enter.native="login"></el-input>
@@ -85,20 +85,27 @@ export default {
 			// justify-content: center;
 			align-items: center;
 			width: 50%;
-			max-width: 500px;
-			height: 400px;
+			max-width: 475px;
+			height: 380px;
 			background: rgba(255, 255, 255, 0.2);
 			border-radius: 20px;
 
 			.title {
 				flex: 1;
 				width: 100%;
-				// height: 60%;
+				display: flex;
+				flex-flow: row;
+				justify-content: center;
+				align-items: center;
+				.logo {
+					height: 120px;
+					width: auto;
+				}
 			}
 
 			.login-form {
 				flex: 1;
-				width: 70%;
+				width: 58%;
 
 				.el-button {
 					width: 100%;
