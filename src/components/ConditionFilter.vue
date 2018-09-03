@@ -3,7 +3,7 @@
 	<div class="condition-filter">
 
 		<div class="add-btn" v-if="showAddBtn">
-			<el-button type="primary" @click="handleAddBtn">{{addBtnName}}</el-button>
+			<el-button size="small" round type="primary" @click="handleAddBtn">{{addBtnName}}</el-button>
 		</div>
 
 		<div class="select" v-if="showSelect">

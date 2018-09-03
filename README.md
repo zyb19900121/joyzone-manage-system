@@ -38,6 +38,14 @@ http拦截的实现是将localstorage中的token放到请求的header中，在�
 	2.媳妇帮忙给做了个logo，先凑合用吧，哈哈，反正就我自己看。
 	3.优化路由、增加添加游戏路由（本计划这个周末写完的，谁料这改改那修修的时间就这么过去了，争取下周一到周五抽时间给完成的）。
 
+重要更新（2018-09-03）：
+  
+	1.实现了文件上传功能，在UserService中写了个单独的POST请求-uploadRequest，与普通post请求的区别是，Content-Type是"multipart/form-data"类型的
+	传参的时候是	let param = new FormData(); //创建form对象
+    					param.append("file", data.file); //通过append向form对象添加数据
+
+
+
   
 未完待续。。。
 

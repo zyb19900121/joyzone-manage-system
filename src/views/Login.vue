@@ -5,7 +5,7 @@
 		<div class="login">
 			<div class="login-info">
 				<div class="title">
-					<img class="logo" src="../assets/img/logo_top.png" alt="">
+					<img class="logo" src="../assets/img/logo_login.png" alt="">
 				</div>
 				<div class="login-form">
 					<el-form ref="loginForm" :model="loginForm" :rules="rules">
@@ -98,7 +98,7 @@ export default {
 				justify-content: center;
 				align-items: center;
 				.logo {
-					height: 120px;
+					height: 175px;
 					width: auto;
 				}
 			}
