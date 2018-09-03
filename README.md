@@ -42,7 +42,7 @@ http拦截的实现是将localstorage中的token放到请求的header中，在�
   
 	1.实现了文件上传功能，在UserService中写了个单独的POST请求-uploadRequest，与普通post请求的区别是，
 	Content-Type是"multipart/form-data"类型的传参的时候是	
-	let param = new FormData(); //创建form对象
+		let param = new FormData(); //创建form对象
     	param.append("file", data.file); //通过append向form对象添加数据
 
 
