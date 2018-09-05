@@ -57,7 +57,8 @@ export default {
       this.$emit("handleDelete");
     },
     handleSave() {
-      console.log("save");
+			console.log("save");
+			this.$emit('handleSave')
     },
     handleCancel() {
       console.log("cancel");

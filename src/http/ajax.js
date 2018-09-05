@@ -113,9 +113,12 @@ export default {
   upload(url, data, baseURL) {
     let param = new FormData(); //创建form对象
     param.append("file", data.file); //通过append向form对象添加数据
+    if (data.type) {
+      param.append("type", data.type);
+    }
     let config = {
       method: "post",
-      url,
+      url: `${url}?type=${data.type}`,
       baseURL: baseURL,
       // data: qs.stringify(data),
       timeout: 30000,

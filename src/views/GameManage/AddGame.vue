@@ -21,7 +21,7 @@
 					</el-form-item>
 
 					<el-form-item label="游戏封面" prop="gameCover">
-						<el-upload class="avatar-uploader" :http-request="httpRequest" :action="''" :show-file-list="false" :on-success="handleUploadSuccess" :before-upload="beforeUpload">
+						<el-upload class="avatar-uploader" :http-request="httpRequest" :action="''" :show-file-list="false" :before-upload="beforeUpload">
 							<img v-if="gameForm.gameCover" :src="baseUrl+gameForm.gameCover" class="avatar">
 							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 						</el-upload>
@@ -43,7 +43,7 @@
 			</el-main>
 		</el-scrollbar>
 		<el-footer>
-			<SubFooter showSave showCancel ref="subFooter"></SubFooter>
+			<SubFooter showSave showCancel ref="subFooter" @handleSave="saveGame"></SubFooter>
 		</el-footer>
 	</el-container>
 </template>
@@ -62,6 +62,7 @@ export default {
       loading: false,
       gameList: [],
       gameTypeList: ["动作", "竞速", "角色扮演", "体育", "射击"],
+      fileType: "game_cover", //上传图片的类型，为了存在不同的目录
       gameForm: {
         gameName: "",
         gameNameEn: "",
@@ -109,14 +110,21 @@ export default {
     },
     httpRequest() {
       userService
-        .uploadRequest("fileUpload", { file: this.file })
+        .uploadRequest("fileUpload", { file: this.file, type: this.fileType })
         .then(response => {
-					this.gameForm.gameCover = response.data.url;
+          this.gameForm.gameCover = response.data.url;
         })
         .catch(error => {});
     },
-    handleUploadSuccess() {
-      // this.gameForm.gameCover = URL.createObjectURL(file.raw);
+    saveGame() {
+      this.$refs.gameForm.validate(valid => {
+        if (valid) {
+          console.log("this.gameForm: ", this.gameForm);
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
   },
   components: {

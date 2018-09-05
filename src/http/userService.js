@@ -54,7 +54,6 @@ class UserService {
 	}
 	
 	async uploadRequest(type, data) {
-		console.log('data: ', data);
     // data.tenantId=this.tenantId
     let apiType = apiConfig[type];
     // let authority = apiType.authority ? false : process.env.AUTHORITY

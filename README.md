@@ -44,6 +44,9 @@ http拦截的实现是将localstorage中的token放到请求的header中，在�
 	传参的时候是	let param = new FormData(); //创建form对象
     					param.append("file", data.file); //通过append向form对象添加数据
 
+小更新更新（2018-09-05）这几天太忙了 实在没时间写啊：
+
+	1.优化添加游戏中上传封面的功能，新增了一个参数（type）目的是让后台根据这个参数来确定图片保存的目录。如不传这个参数会将图片传到默认文件夹下
 
 
   
