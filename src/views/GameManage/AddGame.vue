@@ -27,8 +27,8 @@
 						</el-upload>
 					</el-form-item>
 
-					<el-form-item label="已发售" prop="isSold">
-						<el-switch v-model="gameForm.isSold"></el-switch>
+					<el-form-item label="已发售" prop="isSoldSwitch">
+						<el-switch v-model="isSoldSwitch" @change="handleSoldSwitch"></el-switch>
 					</el-form-item>
 
 					<el-form-item label="发售时间" prop="saleDate">
@@ -62,13 +62,14 @@ export default {
       loading: false,
       gameList: [],
       gameTypeList: ["动作", "竞速", "角色扮演", "体育", "射击"],
-      fileType: "game_cover", //上传图片的类型，为了存在不同的目录
+      fileType: "game_cover", //上传图片的类型，为了存在不同的目录,
+      isSoldSwitch: true,
       gameForm: {
         gameName: "",
         gameNameEn: "",
         gameType: "",
         gameCover: "",
-        isSold: "",
+        isSold: "1",
         saleDate: "",
         gameDesc: ""
       },
@@ -95,18 +96,22 @@ export default {
   },
   created() {},
   methods: {
+    handleSoldSwitch() {
+      this.gameForm.isSold = this.isSoldSwitch ? "1" : "0";
+    },
     beforeUpload(file) {
       this.file = file;
-      const isJPG = file.type === "image/jpeg";
+      let types = ["image/jpeg", "image/png"];
+      const isType = types.includes(file.type);
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
-        this.$message.error("上传游戏封面只能是 JPG 格式!");
+      if (!isType) {
+        this.$message.error("上传游戏封面只能是JPG或PNG格式!");
       }
       if (!isLt2M) {
-        this.$message.error("上传游戏封大小不能超过 2MB!");
+        this.$message.error("上传游戏封大小不能超过2MB!");
       }
-      return isJPG && isLt2M;
+      return isType && isLt2M;
     },
     httpRequest() {
       userService
@@ -119,9 +124,18 @@ export default {
     saveGame() {
       this.$refs.gameForm.validate(valid => {
         if (valid) {
-          console.log("this.gameForm: ", this.gameForm);
+          userService
+            .postRequest("getGameList", this.gameForm)
+            .then(response => {
+              this.$message({
+                type: "success",
+                message: "添加成功!"
+              });
+              this.$emit("refreshData");
+              this.$router.push({ name: "gameList" });
+            })
+            .catch(error => {});
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

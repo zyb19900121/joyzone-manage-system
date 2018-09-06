@@ -12,8 +12,8 @@
 						<div style="padding: 14px;">
 							<span class="game-name">{{game.game_name}}</span>
 							<div class="bottom clearfix">
-								<el-button type="text" class="button">删除</el-button>
-								<el-button type="text" class="button">编辑</el-button>
+								<el-button type="text" class="button" @click="handleDelete(game.id)">删除</el-button>
+								<el-button type="text" class="button" @click="handleClick(game.id)">编辑</el-button>
 							</div>
 						</div>
 					</el-card>
@@ -55,13 +55,44 @@ export default {
       userService
         .getRequest("getGameList", {})
         .then(response => {
-          console.log("response: ", response);
           this.loading = false;
           this.gameList = response.data;
         })
         .catch(error => {});
     },
-    refreshData() {},
+    refreshData() {
+      this.gameList();
+    },
+    handleClick(id) {
+      console.log("id: ", id);
+    },
+    handleDelete(id) {
+      this.$confirm("您确定是否要删除此游戏?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          userService
+            .deleteRequest("deleteGame", id)
+            .then(response => {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+              // if (
+              //   idsLength === this.commentList.length &&
+              //   this.searchParams.currentPage > 1
+              // ) {
+              //   this.searchParams.currentPage =
+              //     this.searchParams.currentPage - 1;
+              // }
+              this.getGameList();
+            })
+            .catch(error => {});
+        })
+        .catch(() => {});
+    },
     handleSelectionChange() {}
   },
   components: {
