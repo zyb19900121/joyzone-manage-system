@@ -84,8 +84,8 @@ export default {
       responseType: "json"
     };
     return axios.get(url, config);
-	},
-	getRestful(url, params, baseURL) {
+  },
+  getRestful(url, params, baseURL) {
     let config = {
       method: "get",
       url,
@@ -109,6 +109,19 @@ export default {
     return axios.post(url, data, config);
   },
 
+  put(url, param, data, baseURL) {
+    let config = {
+      method: "put",
+      url,
+      baseURL: baseURL,
+      data: qs.stringify(data),
+      timeout: 30000,
+      responseType: "json",
+      headers: { "Content-Type": "application/json; charset=UTF-8" }
+    };
+    return axios.put(`${url}/${param}`, data, config);
+  },
+
   //对Restful api做了相应调整， url/1,2,3,4,5
   delete(url, params, baseURL) {
     let config = {
@@ -122,12 +135,12 @@ export default {
   },
 
   upload(url, data, baseURL) {
-		let param = new FormData(); //创建form对象
-		if (data.type) {
+    let param = new FormData(); //创建form对象
+    if (data.type) {
       param.append("type", data.type);
     }
     param.append("file", data.file); //通过append向form对象添加数据
-   
+
     let config = {
       method: "post",
       url,

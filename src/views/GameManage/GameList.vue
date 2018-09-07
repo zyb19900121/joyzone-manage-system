@@ -63,9 +63,7 @@ export default {
     refreshData() {
       this.gameList();
     },
-    handleClick(id) {
-      console.log("id: ", id);
-    },
+    handleClick(id) {},
     handleDelete(id) {
       this.$confirm("您确定是否要删除此游戏?", "提示", {
         confirmButtonText: "确定",

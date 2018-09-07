@@ -96,8 +96,12 @@ export default {
     };
   },
   created() {
-		console.log("gameId: ", this.gameId);
-		this.gameId && this.getGameById(this.gameId)
+    this.gameId && this.getGameById(this.gameId);
+  },
+  watch: {
+    "gameForm.isSold"(newVal) {
+      this.isSoldSwitch = newVal == "1" ? true : false;
+    }
   },
   methods: {
     handleSoldSwitch() {
@@ -107,7 +111,15 @@ export default {
       userService
         .getRestfulRequest("getGameById", id, 1)
         .then(response => {
-					console.log('response: ', response);
+          this.gameForm.gameName = response.data.game_name;
+          this.gameForm.gameNameEn = response.data.game_name_en;
+          this.gameForm.gameType = response.data.game_type
+            ? response.data.game_type.split(",")
+            : [];
+          this.gameForm.isSold = response.data.is_sold;
+          this.gameForm.gameCover = response.data.game_cover;
+          this.gameForm.saleDate = response.data.sale_date;
+          this.gameForm.gameDesc = response.data.game_desc;
         })
         .catch(error => {});
     },
@@ -134,6 +146,9 @@ export default {
         .catch(error => {});
     },
     handleSave() {
+      this.gameId ? this.updateGame() : this.addGame();
+    },
+    addGame() {
       this.$refs.gameForm.validate(valid => {
         if (valid) {
           userService
@@ -151,11 +166,30 @@ export default {
           return false;
         }
       });
-		},
-		handleCancel(){
-			this.$refs.gameForm.resetFields();
-			this.$router.push({ name: "gameList" });
-		}
+    },
+    updateGame() {
+      this.$refs.gameForm.validate(valid => {
+        if (valid) {
+          userService
+            .putRequest("updateGame", this.gameId, this.gameForm)
+            .then(response => {
+              this.$message({
+                type: "success",
+                message: "修改成功!"
+              });
+              this.$emit("refreshData");
+              this.$router.push({ name: "gameList" });
+            })
+            .catch(error => {});
+        } else {
+          return false;
+        }
+      });
+    },
+    handleCancel() {
+      this.$refs.gameForm.resetFields();
+      this.$router.push({ name: "gameList" });
+    }
   },
   components: {
     SubHeader,

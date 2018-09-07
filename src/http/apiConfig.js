@@ -69,6 +69,13 @@ const apiConfig = {
     url: "/manage/game",
     method: "POST",
     baseUrl
+	},
+	
+	updateGame: {
+    //更新游戏
+    url: "/manage/game",
+    method: "PUT",
+    baseUrl
   },
 
   deleteGame: {
