@@ -51,9 +51,32 @@ class UserService {
       // });
       return Promise.reject(e); // 所有的错误从这返回调用者的catch
     }
-	}
-	
-	async uploadRequest(type, data) {
+  }
+
+  async getRestfulRequest(type, data) {
+    // data.tenantId=this.tenantId
+    let apiType = apiConfig[type] || {
+      url: "",
+      method: "POST"
+    };
+    // let authority = apiType.authority ? false : process.env.AUTHORITY
+    try {
+      let response = await ajax.getRestful(apiType.url, data, apiType.baseUrl);
+      // let response = await ajax(apiType.url, {} ,data, apiType.method, apiType.baseUrl, apiType.authPermission, authority)
+      if (response) {
+        // response = authority ? this.checkJurisdiction(response, type) : response
+        return this.resolve(response, type);
+      }
+    } catch (e) {
+      // Message({
+      //   message: "系统错误，请联系开发人员",
+      //   type: "error"
+      // });
+      return Promise.reject(e); // 所有的错误从这返回调用者的catch
+    }
+  }
+
+  async uploadRequest(type, data) {
     // data.tenantId=this.tenantId
     let apiType = apiConfig[type];
     // let authority = apiType.authority ? false : process.env.AUTHORITY

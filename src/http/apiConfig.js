@@ -55,21 +55,28 @@ const apiConfig = {
     url: "/manage/game",
     method: "GET",
     baseUrl
-	},
-	
-	addGame: {
+  },
+
+  getGameById: {
+    //根据id获取游戏
+    url: "/manage/game",
+    method: "GET",
+    baseUrl
+  },
+
+  addGame: {
     //添加新游戏
     url: "/manage/game",
     method: "POST",
     baseUrl
-	},
+  },
 
-	deleteGame: {
+  deleteGame: {
     //删除游戏
     url: "/manage/game",
     method: "DELETE",
     baseUrl
-	},
+  },
 
   /*----------------------------------------文件上传相关接口-----------------------------------------*/
 

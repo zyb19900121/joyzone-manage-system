@@ -13,7 +13,7 @@
 							<span class="game-name">{{game.game_name}}</span>
 							<div class="bottom clearfix">
 								<el-button type="text" class="button" @click="handleDelete(game.id)">删除</el-button>
-								<el-button type="text" class="button" @click="handleClick(game.id)">编辑</el-button>
+								<el-button type="text" class="button" @click="addGame(game.id)">编辑</el-button>
 							</div>
 						</div>
 					</el-card>
@@ -46,9 +46,9 @@ export default {
     this.getGameList();
   },
   methods: {
-    addGame() {
-      console.log("addGame");
-      this.$router.push({ name: "addGame" });
+    addGame(id) {
+      id = id || "";
+      this.$router.push({ name: "addGame", params: { id: id } });
     },
     getGameList() {
       this.loading = true;

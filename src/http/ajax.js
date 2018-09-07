@@ -84,6 +84,17 @@ export default {
       responseType: "json"
     };
     return axios.get(url, config);
+	},
+	getRestful(url, params, baseURL) {
+    let config = {
+      method: "get",
+      url,
+      baseURL: baseURL,
+      // params,
+      timeout: 30000,
+      responseType: "json"
+    };
+    return axios.get(`${url}/${params}`, config);
   },
   post(url, data, baseURL) {
     let config = {

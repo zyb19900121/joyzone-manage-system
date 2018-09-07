@@ -62,7 +62,7 @@ export default {
     },
     handleCancel() {
       console.log("cancel");
-      this.$router.push({ name: "gameList" });
+      this.$emit('handleCancel')
     },
     ininPageConfig() {
       this.searchParams = {

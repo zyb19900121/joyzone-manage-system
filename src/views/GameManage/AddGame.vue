@@ -43,7 +43,7 @@
 			</el-main>
 		</el-scrollbar>
 		<el-footer>
-			<SubFooter showSave showCancel ref="subFooter" @handleSave="saveGame"></SubFooter>
+			<SubFooter showSave showCancel ref="subFooter" @handleSave="handleSave" @handleCancel="handleCancel"></SubFooter>
 		</el-footer>
 	</el-container>
 </template>
@@ -60,6 +60,7 @@ export default {
       baseUrl,
       pageTitle: "添加游戏",
       loading: false,
+      gameId: this.$route.params.id,
       gameList: [],
       gameTypeList: ["动作", "竞速", "角色扮演", "体育", "射击"],
       fileType: "game_cover", //上传图片的类型，为了存在不同的目录,
@@ -94,10 +95,21 @@ export default {
       accept: "image/jpg, image/jpeg, image/png, image/bmp, image/gif"
     };
   },
-  created() {},
+  created() {
+		console.log("gameId: ", this.gameId);
+		this.gameId && this.getGameById(this.gameId)
+  },
   methods: {
     handleSoldSwitch() {
       this.gameForm.isSold = this.isSoldSwitch ? "1" : "0";
+    },
+    getGameById(id) {
+      userService
+        .getRestfulRequest("getGameById", id, 1)
+        .then(response => {
+					console.log('response: ', response);
+        })
+        .catch(error => {});
     },
     beforeUpload(file) {
       this.file = file;
@@ -121,7 +133,7 @@ export default {
         })
         .catch(error => {});
     },
-    saveGame() {
+    handleSave() {
       this.$refs.gameForm.validate(valid => {
         if (valid) {
           userService
@@ -139,7 +151,11 @@ export default {
           return false;
         }
       });
-    }
+		},
+		handleCancel(){
+			this.$refs.gameForm.resetFields();
+			this.$router.push({ name: "gameList" });
+		}
   },
   components: {
     SubHeader,

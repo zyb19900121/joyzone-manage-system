@@ -1,7 +1,7 @@
 <template>
 	<el-container class="index">
 		<el-header>
-			<!-- <Header></Header> -->
+			<Header></Header>
 		</el-header>
 		<el-container style="height:100%">
 			<el-aside>
