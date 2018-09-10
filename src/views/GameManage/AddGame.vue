@@ -20,6 +20,10 @@
 						</el-select>
 					</el-form-item>
 
+					<el-form-item label="游戏评分" prop="gameScore">
+						<el-input-number v-model="gameForm.gameScore" :min="1" :max="10"></el-input-number>
+					</el-form-item>
+
 					<el-form-item label="游戏封面" prop="gameCover">
 						<el-upload class="avatar-uploader" :http-request="httpRequest" :action="''" :show-file-list="false" :before-upload="beforeUpload">
 							<img v-if="gameForm.gameCover" :src="baseUrl+gameForm.gameCover" class="avatar">
@@ -62,13 +66,26 @@ export default {
       loading: false,
       gameId: this.$route.params.id,
       gameList: [],
-      gameTypeList: ["动作", "竞速", "角色扮演", "体育", "射击"],
+      gameTypeList: [
+        "动作",
+        "冒险",
+        "射击",
+        "格斗",
+        "音乐",
+        "益智",
+        "竞速",
+        "角色扮演",
+        "即时战略",
+        "模拟",
+        "体育"
+      ],
       fileType: "game_cover", //上传图片的类型，为了存在不同的目录,
       isSoldSwitch: true,
       gameForm: {
         gameName: "",
         gameNameEn: "",
         gameType: "",
+        gameScore: "",
         gameCover: "",
         isSold: "1",
         saleDate: "",
@@ -97,6 +114,7 @@ export default {
   },
   created() {
     this.gameId && this.getGameById(this.gameId);
+    console.log(this.$route.params);
   },
   watch: {
     "gameForm.isSold"(newVal) {
@@ -113,6 +131,7 @@ export default {
         .then(response => {
           this.gameForm.gameName = response.data.game_name;
           this.gameForm.gameNameEn = response.data.game_name_en;
+          this.gameForm.gameScore = response.data.game_score;
           this.gameForm.gameType = response.data.game_type
             ? response.data.game_type.split(",")
             : [];
@@ -158,8 +177,12 @@ export default {
                 type: "success",
                 message: "添加成功!"
               });
-              this.$emit("refreshData");
-              this.$router.push({ name: "gameList" });
+              this.$router.push({
+                name: "gameList",
+                params: {
+                  searchParams: this.$route.params.searchParams
+                }
+              });
             })
             .catch(error => {});
         } else {
@@ -177,8 +200,12 @@ export default {
                 type: "success",
                 message: "修改成功!"
               });
-              this.$emit("refreshData");
-              this.$router.push({ name: "gameList" });
+              this.$router.push({
+                name: "gameList",
+                params: {
+                  searchParams: this.$route.params.searchParams
+                }
+              });
             })
             .catch(error => {});
         } else {
@@ -188,7 +215,12 @@ export default {
     },
     handleCancel() {
       this.$refs.gameForm.resetFields();
-      this.$router.push({ name: "gameList" });
+      this.$router.push({
+        name: "gameList",
+        params: {
+          searchParams: this.$route.params.searchParams
+        }
+      });
     }
   },
   components: {

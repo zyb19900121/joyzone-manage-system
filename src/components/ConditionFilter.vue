@@ -71,7 +71,7 @@ export default {
         startDate: this.startDate,
         endDate: this.endDate,
         currentPage: 1,
-        pageSize: 15
+        pageSize: 18
       };
       let isConditionSearch = true;
       this.$emit("refreshData", searchParams, isConditionSearch);
@@ -87,7 +87,7 @@ export default {
       let searchParams = {
         gameId: this.selectValue,
         currentPage: 1,
-        pageSize: 15
+        pageSize: 18
       };
       let isConditionSearch = true;
       this.$emit("refreshData", searchParams, isConditionSearch);

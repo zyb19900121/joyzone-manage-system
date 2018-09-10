@@ -51,7 +51,7 @@ export default {
       loading: false,
       pageTitle: "评论管理",
       searchParams: {
-        pageSize: 15,
+        pageSize: 18,
         currentPage: 1
       },
       gameList: [],
@@ -70,7 +70,7 @@ export default {
       userService
         .getRequest("getGameList", { isFilter: 1 })
         .then(response => {
-          this.gameList = response.data;
+          this.gameList = response.data.list;
         })
         .catch(error => {});
     },
