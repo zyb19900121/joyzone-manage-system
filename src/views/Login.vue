@@ -26,6 +26,7 @@
 
 <script type='es6'>
 import userService from "http/userService";
+import { mapMutations } from "vuex";
 export default {
   name: "",
   data() {
@@ -42,6 +43,7 @@ export default {
       }
     };
   },
+  created() {},
   methods: {
     login() {
       this.$refs.loginForm.validate(valid => {
@@ -50,6 +52,11 @@ export default {
             .postRequest("login", this.loginForm)
             .then(response => {
               localStorage.setItem("MY_GAME_TOKEN", response.data.token);
+              localStorage.setItem(
+                "USER_INFO",
+                JSON.stringify(response.data.userInfo)
+              );
+              this.setUserInfo(response.data.userInfo);
               this.$router.push({ path: "/gameManage" });
             })
             .catch(error => {});
@@ -57,7 +64,10 @@ export default {
           return false;
         }
       });
-    }
+    },
+    ...mapMutations({
+      setUserInfo: "setUserInfo"
+    })
   }
 };
 </script>
@@ -97,6 +107,7 @@ export default {
 				flex-flow: row;
 				justify-content: center;
 				align-items: center;
+
 				.logo {
 					height: 175px;
 					width: auto;

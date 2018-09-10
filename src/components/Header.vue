@@ -30,7 +30,8 @@ export default {
       console.log("this.$route.path: ", this.$route);
       console.log(key, keyPath);
       if (key == "5-2") {
-        localStorage.removeItem("MY_GAME_TOKEN");
+				localStorage.removeItem("MY_GAME_TOKEN");
+				localStorage.removeItem("USER_INFO");
         this.$router.push({ name: "login" });
       }
     }

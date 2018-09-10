@@ -4,7 +4,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import VueParticles from "vue-particles";
 import router from "./router";
-import store from "./store";
+import store from './store'
 import filter from "./utils/filter"; //全局filter
 
 import "src/assets/stylus/index.styl";
