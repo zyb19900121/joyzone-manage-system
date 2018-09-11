@@ -65,6 +65,12 @@ http拦截的实现是将localstorage中的token放到请求的header中，在�
 	1.利用vuex保存登录用户的信息（为今后的权限管理做准备），具体实现过程是用户成功登录后将后端返回的用户信息保存到vuex与localstorage中，
 	如果用户处于登录状态中，则将localstorage中的用户信息保存到vuex中。
 
+重要更新（2018-09-11）：
+  
+	1.实现用户的权限功能，现在只是根据用户信息中的isAdmin字段做的整体限制，后期在细化到具体功能的权限。
+		具体实现是利用vue的自定义指令，创建了v-permission指令，这个指令的内容就是根据存在localstorage中的
+		用户信息来判断用户是否有管理权限，如果没有和话则添加is-disabled的class与disable的attr。使用时把指令加在相应button上就可以了。
+
   
 未完待续。。。
 

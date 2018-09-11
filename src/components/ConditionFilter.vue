@@ -1,9 +1,7 @@
 <template>
-
 	<div class="condition-filter">
-
 		<div class="add-btn" v-if="showAddBtn">
-			<el-button size="small" round type="primary" @click="handleAddBtn">{{addBtnName}}</el-button>
+			<el-button size="small" round type="primary" @click="handleAddBtn" v-permission>{{addBtnName}}</el-button>
 		</div>
 
 		<div class="select" v-if="showSelect">

@@ -40,10 +40,10 @@
 
 									</div>
 									<div class="operation-area">
-										<el-button type="text" class="button" @click="addGame(game.id)">
+										<el-button type="text" class="button" @click="addGame(game.id)" v-permission>
 											<i class="iconfont icon-edit"></i>
 										</el-button>
-										<el-button type="text" class="delete-btn" @click="handleDelete(game.id)">
+										<el-button type="text" class="delete-btn" @click="handleDelete(game.id)" v-permission>
 											<i class="iconfont icon-delete"></i>
 										</el-button>
 									</div>
@@ -51,7 +51,7 @@
 								</div>
 							</transition>
 
-							<img :src="`${baseUrl}${game.game_cover}`" class="image">
+							<img :src="`${baseUrl}${game.game_cover}1`" class="image">
 							<!-- <div style="padding: 10px;">
 								<span class="game-name">{{game.game_name}}</span>
 								<div class="bottom clearfix">

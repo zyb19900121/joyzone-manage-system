@@ -1,8 +1,8 @@
 <template>
 	<div class="sub-footer">
 		<div class="operation-area">
-			<el-button v-if=showDelete type="text" @click="handleDelete">删除</el-button>
-			<el-button v-if=showSave size="small" round type="primary" @click="handleSave">保存</el-button>
+			<el-button v-if=showDelete type="text" @click="handleDelete" v-permission>删除</el-button>
+			<el-button v-if=showSave size="small" round type="primary" @click="handleSave" v-permission>保存</el-button>
 			<el-button v-if=showCancel size="small" round @click="handleCancel">取消</el-button>
 		</div>
 		<!-- layout="total, sizes, prev, pager, next" 全部元素 -->

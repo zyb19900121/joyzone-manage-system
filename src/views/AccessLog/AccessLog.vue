@@ -20,7 +20,7 @@
 					</el-table-column>
 					<el-table-column label="操作" width="80">
 						<template slot-scope="scope">
-							<el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除</el-button>
+							<el-button size="mini" type="danger" @click="handleDelete(scope.row)" v-permission>删除</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -70,7 +70,7 @@ export default {
         .catch(error => {});
     },
     refreshData(searchParams, isConditionSearch) {
-			//如果是根据条件查询触发的此方法 应调用subFoot组件中的ininPageConfig方法来初始化分页参数
+      //如果是根据条件查询触发的此方法 应调用subFoot组件中的ininPageConfig方法来初始化分页参数
       Object.assign(this.searchParams, searchParams);
       this.getLogList(this.searchParams);
       isConditionSearch && this.$refs.subFooter.ininPageConfig();

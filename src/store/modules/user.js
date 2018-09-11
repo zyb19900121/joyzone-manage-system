@@ -1,11 +1,15 @@
 //初始化数据
 const state = {
-  userInfo: {}
+  userInfo:
+    window.localStorage.getItem("USER_INFO") &&
+    JSON.parse(window.localStorage.getItem("USER_INFO"))
 };
 
 //getter 抛出去的数据
 const getters = {
-  userInfo: state => state.userInfo
+  isAdmin(state) {
+		return Boolean(state.userInfo.isAdmin)
+	}
 };
 
 //action 异步的操作

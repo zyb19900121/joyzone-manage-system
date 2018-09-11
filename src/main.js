@@ -4,8 +4,9 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import VueParticles from "vue-particles";
 import router from "./router";
-import store from './store'
+import store from "./store";
 import filter from "./utils/filter"; //全局filter
+import directive from "./utils/directive"; //全局directive
 
 import "src/assets/stylus/index.styl";
 
@@ -31,6 +32,11 @@ router.beforeEach((to, from, next) => {
 //注册全局filter
 for (const key in filter) {
   Vue.filter(key, filter[key]);
+}
+
+//注册全局directive
+for (const key in directive) {
+  Vue.directive(key, directive[key]);
 }
 
 new Vue({
