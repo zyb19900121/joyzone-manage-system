@@ -14,6 +14,13 @@
 
 		<el-date-picker v-if="showDatePicker" v-model="dateRange" value-format="yyyy-MM-dd HH:mm:ss" :default-time="['00:00:00', '23:59:59']" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
 		</el-date-picker>
+
+		<div class="keyword-search" v-if="showKeywordSearch">
+			<el-input placeholder="请输入游戏名称" clearable @clear="handleKeywordSearch" v-model="keyword">
+				<el-button slot="append" icon="el-icon-search" @click="handleKeywordSearch"></el-button>
+			</el-input>
+		</div>
+
 	</div>
 </template>
 
@@ -44,15 +51,19 @@ export default {
     selectionOptions: {
       type: Array,
       default: () => []
+    },
+    showKeywordSearch: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
       selectValue: "",
-
       dateRange: "",
       startDate: "",
-      endDate: ""
+      endDate: "",
+      keyword: ""
     };
   },
   watch: {
@@ -94,6 +105,14 @@ export default {
   methods: {
     handleAddBtn() {
       this.$emit("addGame");
+    },
+
+    handleKeywordSearch() {
+      let searchParams = {
+        keyword: this.keyword
+      };
+      let isConditionSearch = true;
+      this.$emit("refreshData", searchParams, isConditionSearch);
     }
   }
 };

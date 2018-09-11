@@ -2,7 +2,7 @@
 	<el-container class="sub-page game-manage">
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
-			<ConditionFilter showAddBtn addBtnName="添加游戏" @addGame="addGame"></ConditionFilter>
+			<ConditionFilter showAddBtn showKeywordSearch addBtnName="添加游戏" @addGame="addGame" @refreshData="refreshData"></ConditionFilter>
 		</el-header>
 		<el-scrollbar style="height:100%;">
 			<el-main>
@@ -51,7 +51,7 @@
 								</div>
 							</transition>
 
-							<img :src="`${baseUrl}${game.game_cover}`" class="image">
+							<img :src="`${baseUrl}${game.game_cover}1`" class="image">
 							<!-- <div style="padding: 10px;">
 								<span class="game-name">{{game.game_name}}</span>
 								<div class="bottom clearfix">

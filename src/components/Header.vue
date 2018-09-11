@@ -10,19 +10,28 @@
 		<el-menu-item index="/commentManage">评论管理</el-menu-item>
 		<el-menu-item index="/accessLog">访问日志</el-menu-item>
 		<el-menu-item index="/aboutUs">关于我们</el-menu-item>
+
 		<el-submenu class="last-menu" index="5">
 			<template slot="title">设置</template>
 			<el-menu-item index="5-1">修改密码</el-menu-item>
 			<el-menu-item index="5-2">退出</el-menu-item>
 		</el-submenu>
+
+		<span class="userinfo">
+			欢迎您，{{user.userInfo.name}}
+		</span>
 	</el-menu>
 </template>
 
 <script type='es6'>
+import { mapState } from "vuex";
 export default {
   name: "",
   data() {
     return {};
+  },
+  computed: {
+    ...mapState(["user"])
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -30,8 +39,8 @@ export default {
       console.log("this.$route.path: ", this.$route);
       console.log(key, keyPath);
       if (key == "5-2") {
-				localStorage.removeItem("MY_GAME_TOKEN");
-				localStorage.removeItem("USER_INFO");
+        localStorage.removeItem("MY_GAME_TOKEN");
+        localStorage.removeItem("USER_INFO");
         this.$router.push({ name: "login" });
       }
     }
@@ -40,8 +49,17 @@ export default {
 </script>
 
 <style lang='stylus' scoped>
-.last-menu {
+@import '~src/assets/stylus/variable.styl';
+
+.last-menu, .userinfo {
 	float: right;
+}
+
+.userinfo {
+	margin-right: 20px;
+	font-size: $font-size-normal !important;
+	color: #fff;
+	line-height: 60px;
 }
 
 .logo {
