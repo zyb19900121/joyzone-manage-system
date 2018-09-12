@@ -28,6 +28,8 @@ axios.interceptors.response.use(
     return response;
   },
   error => {
+    localStorage.removeItem("MY_GAME_TOKEN");
+    localStorage.removeItem("USER_INFO");
     if (error.response.status === 403) {
       let msg = error.response.data.msg || "您的登录信息已失效，请重新登录";
       Message({
@@ -48,6 +50,7 @@ axios.interceptors.response.use(
         type: "error"
       });
     }
+
     return Promise.reject(error);
   }
 );
