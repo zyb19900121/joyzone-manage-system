@@ -113,8 +113,8 @@ export default {
     };
   },
   created() {
-    this.gameId && this.getGameById(this.gameId);
-    console.log(this.$route.params);
+		this.gameId && this.getGameById(this.gameId);
+		console.log('this.$route.params.searchParams: ', this.$route.params.searchParams);
   },
   watch: {
     "gameForm.isSold"(newVal) {
@@ -203,7 +203,7 @@ export default {
               this.$router.push({
                 name: "gameList",
                 params: {
-                  searchParams: this.$route.params.searchParams
+									searchParams: this.$route.params.searchParams
                 }
               });
             })
@@ -214,11 +214,12 @@ export default {
       });
     },
     handleCancel() {
+			console.log('this.$route.params.searchParams2222: ', this.$route.params.searchParams);
       this.$refs.gameForm.resetFields();
       this.$router.push({
         name: "gameList",
         params: {
-          searchParams: this.$route.params.searchParams
+					searchParams: this.$route.params.searchParams
         }
       });
     }

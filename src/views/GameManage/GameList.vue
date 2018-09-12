@@ -2,7 +2,7 @@
 	<el-container class="sub-page game-manage">
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
-			<ConditionFilter showAddBtn showKeywordSearch addBtnName="添加游戏" @addGame="addGame" @refreshData="refreshData"></ConditionFilter>
+			<ConditionFilter ref="conditionFilter" showAddBtn showSelect showKeywordSearch addBtnName="添加游戏" selectName="排序：" :selectionOptions="orderByOptions" optionLabel="label" optionValue="value" @addGame="addGame" @refreshData="refreshData"></ConditionFilter>
 		</el-header>
 		<el-scrollbar style="height:100%;">
 			<el-main>
@@ -51,7 +51,7 @@
 								</div>
 							</transition>
 
-							<img :src="`${baseUrl}${game.game_cover}1`" class="image">
+							<img :src="`${baseUrl}${game.game_cover}`" class="image">
 							<!-- <div style="padding: 10px;">
 								<span class="game-name">{{game.game_name}}</span>
 								<div class="bottom clearfix">
@@ -65,7 +65,7 @@
 			</el-main>
 		</el-scrollbar>
 		<el-footer>
-			<SubFooter ref="subFooter" showPagination :total="gameTotal*1" @refreshData="refreshData"></SubFooter>
+			<SubFooter ref="subFooter" :showPagination="Boolean(gameTotal)" :total="gameTotal" @refreshData="refreshData"></SubFooter>
 		</el-footer>
 	</el-container>
 </template>
@@ -88,13 +88,33 @@ export default {
         currentPage: 1
       },
       gameList: [],
-      gameTotal: "",
-      detailShowIndex: ""
+      gameTotal: 0,
+      detailShowIndex: "",
+      orderByOptions: [
+        {
+          label: "游戏评分(高到低)",
+          value: "game_score DESC"
+        },
+        {
+          label: "游戏评分(低到高)",
+          value: "game_score"
+        },
+        {
+          label: "发售时间(近到远)",
+          value: "sale_date DESC"
+        },
+        {
+          label: "发售时间(远到近)",
+          value: "sale_date"
+        }
+      ]
     };
   },
-  created() {
+  mounted() {
     if (this.$route.params.searchParams) {
       this.searchParams = this.$route.params.searchParams;
+      this.$refs.subFooter.setSearchParams(this.searchParams);
+      this.$refs.conditionFilter.setSearchParams(this.searchParams);
     }
     this.getGameList(this.searchParams);
   },
@@ -118,8 +138,14 @@ export default {
         .catch(error => {});
     },
     refreshData(searchParams, isConditionSearch) {
+      this.searchParams.orderBy && (this.searchParams.orderBy = "");
+      if (searchParams.selectValue) {
+        searchParams.orderBy = searchParams.selectValue;
+        delete searchParams.selectValue;
+      }
       Object.assign(this.searchParams, searchParams);
       this.getGameList(this.searchParams);
+
       isConditionSearch && this.$refs.subFooter.ininPageConfig();
     },
     handleClick(id) {},

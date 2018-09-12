@@ -6,14 +6,14 @@
 			<el-button v-if=showCancel size="small" round @click="handleCancel">取消</el-button>
 		</div>
 		<!-- layout="total, sizes, prev, pager, next" 全部元素 -->
-		<el-pagination v-if="showPagination" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="searchParams.currentPage" :page-sizes="[18, 36, 72, 144]" :page-size="searchParams.pageSize" layout="prev, pager, next" :total="total">
+		<el-pagination v-if="showPagination" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="searchParams.currentPage" :page-sizes="[18, 36, 72, 144]" :page-size="searchParams.pageSize" layout="prev, pager, next" :total="total">
 		</el-pagination>
 	</div>
 </template>
 
 <script type='es6'>
 export default {
-  name: "",
+  name: "sub-footer",
   props: {
     showDelete: {
       type: Boolean,
@@ -32,8 +32,7 @@ export default {
       default: false
     },
     total: {
-      type: Number,
-      default: 0
+      type: Number
     }
   },
   data() {
@@ -67,6 +66,9 @@ export default {
         currentPage: 1,
         pageSize: 18
       };
+    },
+    setSearchParams(searchParams) {
+      this.searchParams.currentPage = searchParams.currentPage;
     }
   }
 };

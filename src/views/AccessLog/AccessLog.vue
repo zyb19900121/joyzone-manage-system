@@ -27,7 +27,7 @@
 			</el-main>
 		</el-scrollbar>
 		<el-footer>
-			<SubFooter ref="subFooter" showDelete showPagination :total="logTotal*1" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
+			<SubFooter ref="subFooter" showDelete :showPagination="Boolean(logTotal)" :total="logTotal" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
 		</el-footer>
 	</el-container>
 </template>
@@ -50,7 +50,7 @@ export default {
         endDate: ""
       },
       logList: [],
-      logTotal: "",
+      logTotal: 0,
       multipleSelection: []
     };
   },

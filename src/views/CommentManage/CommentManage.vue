@@ -2,7 +2,7 @@
 	<el-container class="sub-page comment-manage">
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
-			<ConditionFilter showDatePicker showSelect @refreshData="refreshData" selectName="游戏名称：" :selectionOptions="gameList"></ConditionFilter>
+			<ConditionFilter showDatePicker showSelect @refreshData="refreshData" selectName="游戏名称：" :selectionOptions="gameList" optionLabel="game_name" optionValue="id"></ConditionFilter>
 		</el-header>
 		<el-scrollbar style="height:100%;">
 			<el-main>
@@ -32,7 +32,7 @@
 			</el-main>
 		</el-scrollbar>
 		<el-footer>
-			<SubFooter ref="subFooter" showDelete showPagination :total="commentTotal*1" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
+			<SubFooter ref="subFooter" showDelete :showPagination="Boolean(commentTotal)" :total="commentTotal" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
 		</el-footer>
 	</el-container>
 </template>
@@ -56,7 +56,7 @@ export default {
       },
       gameList: [],
       commentList: [],
-      commentTotal: "",
+      commentTotal: 0,
       multipleSelection: []
     };
   },
@@ -86,9 +86,14 @@ export default {
         .catch(error => {});
     },
     refreshData(searchParams, isConditionSearch) {
+      if (searchParams.selectValue) {
+        searchParams.gameId = searchParams.selectValue;
+        delete searchParams.selectValue;
+      }
       //如果是根据条件查询触发的此方法 应调用subFoot组件中的ininPageConfig方法来初始化分页参数
       Object.assign(this.searchParams, searchParams);
       this.getGameCommentList(this.searchParams);
+      console.log("this.searchParams: ", this.searchParams);
       isConditionSearch && this.$refs.subFooter.ininPageConfig();
     },
     handleDelete(log) {
