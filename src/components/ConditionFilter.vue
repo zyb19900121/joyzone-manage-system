@@ -5,6 +5,8 @@
 				<el-button size="small" round type="primary" @click="handleAddBtn" v-permission>{{addBtnName}}</el-button>
 			</div>
 
+			<slot></slot>
+
 			<div class="select" v-if="showSelect">
 				<span class="select-label">{{selectName}}</span>
 				<el-select size="small" v-model="selectValue" placeholder="请选择" @change="handleSelectValue" clearable>
@@ -18,7 +20,7 @@
 		</el-date-picker>
 
 		<div class="keyword-search" v-if="showKeywordSearch">
-			<el-input size="small" placeholder="请输入游戏名称" clearable @clear="handleKeywordSearch" v-model="keyword">
+			<el-input size="small" placeholder="请输入游戏名称" clearable @clear="handleKeywordSearch" v-model="keyword" @keyup.enter.native="handleKeywordSearch">
 				<el-button slot="append" icon="el-icon-search" @click="handleKeywordSearch"></el-button>
 			</el-input>
 		</div>
@@ -129,7 +131,7 @@ export default {
 @import '~src/assets/stylus/variable.styl';
 
 .condition-filter {
-	padding: 15px 20px;
+	padding: 0px 20px 15px 20px;
 	display: flex;
 	flex-flow: row;
 	justify-content: space-between;
@@ -137,18 +139,38 @@ export default {
 	.condition-part {
 		display: flex;
 		flex-flow: row;
+		flex-wrap: wrap;
 	}
 
 	.add-btn {
+		margin-top: 15px;
 		margin-right: 20px;
 	}
 
 	.select {
 		margin-right: 20px;
+		margin-top: 15px;
 
 		.select-label {
 			color: $color-text-t;
 			font-size: $font-size-small;
+		}
+	}
+
+	.keyword-search {
+		margin-top: 15px;
+	}
+
+	.el-date-editor {
+		margin-top: 15px;
+	}
+
+	.el-checkbox {
+		margin-right: 20px;
+		margin-top: 22px;
+
+		.el-checkbox__label {
+			font-size: 13px;
 		}
 	}
 }

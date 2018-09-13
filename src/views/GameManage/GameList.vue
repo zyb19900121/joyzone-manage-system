@@ -2,7 +2,26 @@
 	<el-container class="sub-page game-manage">
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
-			<ConditionFilter ref="conditionFilter" showAddBtn showSelect showKeywordSearch addBtnName="添加游戏" selectName="排序：" :selectionOptions="orderByOptions" optionLabel="label" optionValue="value" @addGame="addGame" @refreshData="refreshData"></ConditionFilter>
+			<ConditionFilter ref="conditionFilter" showAddBtn showSelect showKeywordSearch addBtnName="添加游戏" selectName="排序：" :selectionOptions="orderByOptions" optionLabel="label" optionValue="value" @addGame="addGame" @refreshData="refreshData">
+				<el-checkbox v-model="searchParams.isSold" @change="handleIsSoldSelect">已发售</el-checkbox>
+
+				<div class="select">
+					<span class="select-label">游戏平台：</span>
+					<el-select size="small" v-model="searchParams.platform" placeholder="请选择" @change="handlePlatformSelect" clearable>
+						<el-option v-for="(item,index) in platformList" :key="index" :label="item" :value="item">
+						</el-option>
+					</el-select>
+				</div>
+
+				<div class="select">
+					<span class="select-label">游戏类型：</span>
+					<el-select size="small" v-model="searchParams.gameType" placeholder="请选择" @change="handleGameTypeSelect" clearable>
+						<el-option v-for="(item,index) in gameTypeList" :key="index" :label="item" :value="item">
+						</el-option>
+					</el-select>
+				</div>
+
+			</ConditionFilter>
 		</el-header>
 		<el-scrollbar style="height:100%;">
 			<el-main>
@@ -76,6 +95,7 @@ import userService from "http/userService";
 import SubHeader from "components/SubHeader";
 import SubFooter from "components/SubFooter";
 import ConditionFilter from "components/ConditionFilter";
+import { platformList, gameTypeList } from "utils/gameConfig";
 export default {
   name: "",
   data() {
@@ -83,9 +103,14 @@ export default {
       baseUrl,
       pageTitle: "游戏库",
       loading: false,
+      platformList,
+      gameTypeList,
       searchParams: {
         pageSize: 18,
-        currentPage: 1
+        currentPage: 1,
+        platform: "",
+        gameType: "",
+        isSold: true
       },
       gameList: [],
       gameTotal: 0,
@@ -137,8 +162,19 @@ export default {
         })
         .catch(error => {});
     },
+    handleIsSoldSelect(val) {
+      this.getGameList(this.searchParams);
+    },
+    handlePlatformSelect(val) {
+      this.getGameList(this.searchParams);
+    },
+    handleGameTypeSelect(val) {
+      this.getGameList(this.searchParams);
+    },
     refreshData(searchParams, isConditionSearch) {
-      this.searchParams.orderBy && (this.searchParams.orderBy = "");
+      if (searchParams.selectValue === "") {
+        this.searchParams.orderBy && (this.searchParams.orderBy = "");
+      }
       if (searchParams.selectValue) {
         searchParams.orderBy = searchParams.selectValue;
         delete searchParams.selectValue;
@@ -148,7 +184,6 @@ export default {
 
       isConditionSearch && this.$refs.subFooter.ininPageConfig();
     },
-    handleClick(id) {},
     handleDelete(id) {
       this.$confirm("您确定是否要删除此游戏?", "提示", {
         confirmButtonText: "确定",
