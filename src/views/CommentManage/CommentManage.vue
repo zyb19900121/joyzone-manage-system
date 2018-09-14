@@ -2,7 +2,15 @@
 	<el-container class="sub-page comment-manage">
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
-			<ConditionFilter showDatePicker showSelect @refreshData="refreshData" selectName="游戏名称：" :selectionOptions="gameList" optionLabel="game_name" optionValue="id"></ConditionFilter>
+			<ConditionFilter showDatePicker>
+				<div class="select">
+					<span class="select-label">游戏名称：</span>
+					<el-select size="small" v-model="searchParams.gameId" placeholder="请选择" @change="handleGameSelect" clearable>
+						<el-option v-for="(item,index) in gameList" :key="index" :label="item.game_name" :value="item.id">
+						</el-option>
+					</el-select>
+				</div>
+			</ConditionFilter>
 		</el-header>
 		<el-scrollbar style="height:100%;">
 			<el-main>
@@ -51,6 +59,7 @@ export default {
       loading: false,
       pageTitle: "评论管理",
       searchParams: {
+        gameId: "",
         pageSize: 18,
         currentPage: 1
       },
@@ -85,6 +94,11 @@ export default {
         })
         .catch(error => {});
     },
+    handleGameSelect() {
+      this.searchParams.currentPage = 1;
+      this.getGameCommentList(this.searchParams);
+      this.$refs.subFooter.ininPageConfig();
+    },
     refreshData(searchParams, isConditionSearch) {
       if (searchParams.selectValue) {
         searchParams.gameId = searchParams.selectValue;
@@ -93,7 +107,7 @@ export default {
       //如果是根据条件查询触发的此方法 应调用subFoot组件中的ininPageConfig方法来初始化分页参数
       Object.assign(this.searchParams, searchParams);
       this.getGameCommentList(this.searchParams);
-      console.log("this.searchParams: ", this.searchParams);
+
       isConditionSearch && this.$refs.subFooter.ininPageConfig();
     },
     handleDelete(log) {
@@ -106,7 +120,6 @@ export default {
       }
       let idsLength = ids.length;
       ids = ids.length ? ids.join(",") : log.id;
-      console.log("ids: ", ids);
 
       this.$confirm("您确定是否要删除此记录?", "提示", {
         confirmButtonText: "确定",

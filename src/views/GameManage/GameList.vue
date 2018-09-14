@@ -163,12 +163,18 @@ export default {
         .catch(error => {});
     },
     handleIsSoldSelect(val) {
+      this.searchParams.currentPage = 1;
+      this.$refs.subFooter.ininPageConfig();
       this.getGameList(this.searchParams);
     },
     handlePlatformSelect(val) {
+      this.searchParams.currentPage = 1;
+      this.$refs.subFooter.ininPageConfig();
       this.getGameList(this.searchParams);
     },
     handleGameTypeSelect(val) {
+      this.searchParams.currentPage = 1;
+      this.$refs.subFooter.ininPageConfig();
       this.getGameList(this.searchParams);
     },
     refreshData(searchParams, isConditionSearch) {

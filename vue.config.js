@@ -6,10 +6,7 @@ function resolve(dir) {
 }
 
 module.exports = {
-	// 选项...
-	
-
-
+  // 选项...
   pages: {
     index: {
       // page 的入口
@@ -27,16 +24,24 @@ module.exports = {
   },
 
   chainWebpack: config => {
+    config.externals({
+      vue: "Vue",
+      "vue-router": "VueRouter",
+      vuex: "Vuex",
+      axios: "axios",
+      "element-ui": "ELEMENT"
+    });
+
     config.resolve.alias
       .set("@", resolve("src"))
       .set("src", resolve("src"))
       .set("http", resolve("src/http"))
       .set("views", resolve("src/views"))
-			.set("components", resolve("src/components"))
-			.set("utils", resolve("src/utils"));
-	},
-	
-	productionSourceMap: false,
+      .set("components", resolve("src/components"))
+      .set("utils", resolve("src/utils"));
+  },
+
+  productionSourceMap: false,
 
   devServer: {
     open: process.platform === "darwin",
