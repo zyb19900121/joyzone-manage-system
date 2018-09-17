@@ -14,14 +14,14 @@
 					</el-form-item>
 
 					<el-form-item label="游戏平台" prop="platform">
-						<el-select size="small" v-model="gameForm.platform" placeholder="请选择游戏类型">
+						<el-select size="small" v-model="gameForm.platform" placeholder="请选择游戏平台">
 							<el-option v-for="(item,index) in platformList" :key="index" :label="item" :value="item">
 							</el-option>
 						</el-select>
 					</el-form-item>
 
 					<el-form-item label="游戏类型" prop="gameType">
-						<el-select size="small" v-model="gameForm.gameType" multiple placeholder="请选择游戏平台">
+						<el-select size="small" v-model="gameForm.gameType" multiple placeholder="请选择游戏类型">
 							<el-option v-for="(type,index) in gameTypeList" :key="index" :label="type" :value="type">
 							</el-option>
 						</el-select>

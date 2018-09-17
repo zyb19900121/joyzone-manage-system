@@ -88,6 +88,7 @@ http拦截的实现是将localstorage中的token放到请求的header中，在�
 更新（2018-09-14）：
   
 	1.优化首页白屏时间（将依赖从cdn引用）
+	2.利用Jenkins完成自动编译部署。
 	
 
 
