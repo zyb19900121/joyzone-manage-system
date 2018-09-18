@@ -70,7 +70,7 @@
 								</div>
 							</transition>
 
-							<img :src="`${baseUrl}${game.game_cover}`" class="image">
+							<img :src="`${baseUrl}${game.game_cover}?t=${Math.random()}`" class="image">
 							<!-- <div style="padding: 10px;">
 								<span class="game-name">{{game.game_name}}</span>
 								<div class="bottom clearfix">
