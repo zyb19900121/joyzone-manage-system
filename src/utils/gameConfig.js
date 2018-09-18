@@ -1,5 +1,8 @@
 const platformList = ["PlayStation4", "Xbox One", "Nintendo Switch"];
 
+const languageList = ["中文", "英文", "日文"];
+
+
 const gameTypeList = [
   "动作",
   "冒险",
@@ -14,4 +17,4 @@ const gameTypeList = [
   "体育"
 ];
 
-export { platformList, gameTypeList };
+export { platformList, languageList, gameTypeList };

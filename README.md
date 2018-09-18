@@ -93,7 +93,7 @@ http拦截的实现是将localstorage中的token放到请求的header中，在�
 更新（2018-09-18）：
   
 	1.修改图片展示的bug
-	
+	2.添加游戏语言字段
 	
 
 

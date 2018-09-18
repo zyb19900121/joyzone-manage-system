@@ -27,6 +27,13 @@
 						</el-select>
 					</el-form-item>
 
+					<el-form-item label="游戏语言" prop="gameType">
+						<el-select size="small" v-model="gameForm.gameLanguage" multiple placeholder="请选择游戏语言">
+							<el-option v-for="(item,index) in languageList" :key="index" :label="item" :value="item">
+							</el-option>
+						</el-select>
+					</el-form-item>
+
 					<el-form-item label="游戏评分" prop="gameScore">
 						<el-input-number size="small" v-model="gameForm.gameScore" :min="1" :max="10"></el-input-number>
 					</el-form-item>
@@ -64,7 +71,7 @@ import { baseUrl } from "utils/env";
 import userService from "http/userService";
 import SubHeader from "components/SubHeader";
 import SubFooter from "components/SubFooter";
-import { platformList, gameTypeList } from "utils/gameConfig";
+import { platformList, gameTypeList, languageList } from "utils/gameConfig";
 export default {
   name: "",
   data() {
@@ -76,6 +83,7 @@ export default {
       gameList: [],
       gameTypeList,
       platformList,
+      languageList,
       fileType: "game_cover", //上传图片的类型，为了存在不同的目录,
       isSoldSwitch: true,
       gameForm: {
@@ -84,6 +92,7 @@ export default {
         gameType: "",
         gameScore: "",
         gameCover: "",
+        gameLanguage: "",
         platform: "",
         isSold: "1",
         saleDate: "",
@@ -132,9 +141,12 @@ export default {
           this.gameForm.gameType = response.data.game_type
             ? response.data.game_type.split(",")
             : [];
+          this.gameForm.gameLanguage = response.data.game_language
+            ? response.data.game_language.split(",")
+            : [];
           this.gameForm.isSold = response.data.is_sold;
-					this.gameForm.gameCover = response.data.game_cover;
-					this.gameForm.platform = response.data.platform;
+          this.gameForm.gameCover = response.data.game_cover;
+          this.gameForm.platform = response.data.platform;
           this.gameForm.saleDate = response.data.sale_date;
           this.gameForm.gameDesc = response.data.game_desc;
         })
