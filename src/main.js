@@ -3,6 +3,7 @@ import App from "./App.vue";
 import ElementUI from "element-ui";
 // import "element-ui/lib/theme-chalk/index.css";
 import VueParticles from "vue-particles";
+import VueLazyload from 'vue-lazyload'
 import router from "./router";
 import store from "./store";
 import filter from "./utils/filter"; //全局filter
@@ -14,6 +15,12 @@ Vue.config.productionTip = false;
 
 Vue.use(ElementUI);
 Vue.use(VueParticles);
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  // error: '/src/assets/img/logo_top.png',
+  // loading: require('./assets/img/bg.jpg'),
+  attempt: 1
+})
 
 //路由拦截(查看localstorage中是否存有token)
 router.beforeEach((to, from, next) => {
