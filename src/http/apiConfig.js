@@ -1,7 +1,7 @@
 const baseUrl =
   process.env.NODE_ENV == "development"
     ? "http://127.0.0.1:3000"
-    : "http://123.207.152.180:3000";
+    : "https://joyzone.xyz";
 
 const apiConfig = {
   // register: { //获取菜单
