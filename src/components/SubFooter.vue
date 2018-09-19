@@ -6,7 +6,7 @@
 			<el-button v-if=showCancel size="small" round @click="handleCancel">取消</el-button>
 		</div>
 		<!-- layout="total, sizes, prev, pager, next" 全部元素 -->
-		<el-pagination v-if="showPagination" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="searchParams.currentPage" :page-sizes="[18, 36, 72, 144]" :page-size="searchParams.pageSize" layout="prev, pager, next" :total="total">
+		<el-pagination v-if="showPagination" background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="searchParams.currentPage" :page-sizes="[16, 32, 64, 128]" :page-size="searchParams.pageSize" layout="prev, pager, next" :total="total">
 		</el-pagination>
 	</div>
 </template>
@@ -39,7 +39,7 @@ export default {
     return {
       searchParams: {
         currentPage: 1,
-        pageSize: 18
+        pageSize: 16
       }
     };
   },
@@ -64,7 +64,7 @@ export default {
     ininPageConfig() {
       this.searchParams = {
         currentPage: 1,
-        pageSize: 18
+        pageSize: 16
       };
     },
     setSearchParams(searchParams) {

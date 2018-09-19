@@ -44,7 +44,7 @@ export default {
       loading: false,
       pageTitle: "访问日志",
       searchParams: {
-        pageSize: 18,
+        pageSize: 16,
         currentPage: 1,
         startDate: "",
         endDate: ""

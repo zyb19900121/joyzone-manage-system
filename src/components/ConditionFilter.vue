@@ -91,7 +91,7 @@ export default {
         startDate: this.startDate,
         endDate: this.endDate,
         currentPage: 1,
-        pageSize: 18
+        pageSize: 16
       };
       let isConditionSearch = true;
       this.$emit("refreshData", searchParams, isConditionSearch);
@@ -105,7 +105,7 @@ export default {
       let searchParams = {
         selectValue: val,
         currentPage: 1,
-        pageSize: 18
+        pageSize: 16
       };
       let isConditionSearch = true;
       this.$emit("refreshData", searchParams, isConditionSearch);
@@ -114,7 +114,7 @@ export default {
       let searchParams = {
         keyword: this.keyword,
         currentPage: 1,
-        pageSize: 18
+        pageSize: 16
       };
       let isConditionSearch = true;
       this.$emit("refreshData", searchParams, isConditionSearch);

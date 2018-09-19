@@ -80,6 +80,26 @@ export default new Router({
           meta: {
             requireAuth: true
           }
+				},
+				{
+          //游戏类型管理
+          path: "gameTypeManage",
+          name: "gameTypeManage",
+          component: () =>
+            import(/* webpackChunkName: "myGame" */ "views/ConfigManage/GameTypeManage.vue"),
+          meta: {
+            requireAuth: true
+          }
+				},
+				{
+          //游戏厂商管理
+          path: "gameCompanyManage",
+          name: "gameCompanyManage",
+          component: () =>
+            import(/* webpackChunkName: "myGame" */ "views/ConfigManage/GameCompanyManage.vue"),
+          meta: {
+            requireAuth: true
+          }
         },
         {
           //访问日志

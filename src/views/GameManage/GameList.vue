@@ -106,7 +106,7 @@ export default {
       platformList,
       gameTypeList,
       searchParams: {
-        pageSize: 18,
+        pageSize: 16,
         currentPage: 1,
         platform: "",
         gameType: "",
@@ -152,7 +152,8 @@ export default {
       });
     },
     getGameList(searchParams) {
-      this.loading = true;
+			this.loading = true;
+			this.gameList = [];
       userService
         .getRequest("getGameList", searchParams)
         .then(response => {

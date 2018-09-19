@@ -60,7 +60,7 @@ export default {
       pageTitle: "评论管理",
       searchParams: {
         gameId: "",
-        pageSize: 18,
+        pageSize: 16,
         currentPage: 1
       },
       gameList: [],
