@@ -15,7 +15,7 @@
 					<span v-if="!isCollapse">配置管理</span>
 				</template>
 				<el-menu-item index="/gameTypeManage">游戏类型管理</el-menu-item>
-				<el-menu-item index="/gameCompanyManage">游戏厂商管理</el-menu-item>
+				<el-menu-item index="/gameCompanyManage">游戏公司管理</el-menu-item>
 			</el-submenu>
 			<el-menu-item index="/commentManage">
 				<i class="iconfont icon-comment"></i>

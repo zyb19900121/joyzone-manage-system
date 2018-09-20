@@ -10,7 +10,7 @@
 		<el-submenu index="2">
 			<template slot="title">配置管理</template>
 			<el-menu-item index="/gameTypeManage">游戏类型管理</el-menu-item>
-			<el-menu-item index="/gameCompanyManage">游戏厂商管理</el-menu-item>
+			<el-menu-item index="/gameCompanyManage">游戏公司管理</el-menu-item>
 			<el-menu-item index="2-3">选项3</el-menu-item>
 		</el-submenu>
 		<el-menu-item index="/commentManage">评论管理</el-menu-item>
