@@ -42,7 +42,7 @@ const apiConfig = {
     baseUrl
   },
   deleteLogs: {
-    //获取日志列表
+    //删除日志
     url: "/manage/log",
     method: "DELETE",
     baseUrl
@@ -100,6 +100,12 @@ const apiConfig = {
     //获取游戏公司列表
     url: "/manage/gameCompany",
     method: "GET",
+    baseUrl
+	},
+	deleteGameCompany: {
+    //删除游戏公司
+    url: "/manage/gameCompany",
+    method: "DELETE",
     baseUrl
   }
 };

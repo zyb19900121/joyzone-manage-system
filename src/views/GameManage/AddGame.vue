@@ -35,7 +35,7 @@
 					</el-form-item>
 
 					<el-form-item label="游戏评分" prop="gameScore">
-						<el-input-number size="small" v-model="gameForm.gameScore" :min="1" :max="10"></el-input-number>
+						<el-input-number size="small" v-model="gameForm.gameScore" :min="1" :max="10" :precision="1" :step="0.1"></el-input-number>
 					</el-form-item>
 
 					<el-form-item label="游戏封面" prop="gameCover">
