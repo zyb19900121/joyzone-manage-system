@@ -13,7 +13,7 @@
 							<el-input v-model="loginForm.username" clearable placeholder="用户名"></el-input>
 						</el-form-item>
 						<el-form-item prop="password">
-							<el-input v-model="loginForm.password" clearable placeholder="密码" @keyup.enter.native="login"></el-input>
+							<el-input v-model="loginForm.password" type="password" clearable placeholder="密码" @keyup.enter.native="login"></el-input>
 						</el-form-item>
 						<el-button type="primary" @click="login">登 录</el-button>
 					</el-form>

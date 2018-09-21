@@ -102,6 +102,24 @@ const apiConfig = {
     method: "GET",
     baseUrl
 	},
+	addGameCompany: {
+    //添加新游戏公司
+    url: "/manage/gameCompany",
+    method: "POST",
+    baseUrl
+	},
+	updateGameCompany: {
+    //修改游戏公司
+    url: "/manage/gameCompany",
+    method: "PUT",
+    baseUrl
+	},
+	getGameCompanyById: {
+    //根据id获取公司详情
+    url: "/manage/gameCompany",
+    method: "GET",
+    baseUrl
+  },
 	deleteGameCompany: {
     //删除游戏公司
     url: "/manage/gameCompany",

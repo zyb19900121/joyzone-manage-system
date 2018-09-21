@@ -17,13 +17,13 @@
 					</el-table-column>
 					<el-table-column prop="company_name_en" label="公司名称(英文)">
 					</el-table-column>
-					<el-table-column prop="company_desc" label="公司简介">
+					<el-table-column prop="company_desc" show-overflow-tooltip label="公司简介">
 					</el-table-column>
 					<el-table-column prop="order" label="排序" width="120">
 					</el-table-column>
 					<el-table-column label="操作" width="145">
 						<template slot-scope="scope">
-							<el-button size="mini" type="primary" @click="handleDelete(scope.row)" v-permission>编辑</el-button>
+							<el-button size="mini" type="primary" @click="handleAddCompany(scope.row)" v-permission>编辑</el-button>
 							<el-button size="mini" type="danger" @click="handleDelete(scope.row)" v-permission>删除</el-button>
 						</template>
 					</el-table-column>
@@ -34,23 +34,23 @@
 			<SubFooter ref="subFooter" showDelete :showPagination="Boolean(companyTotal)" :total="companyTotal" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
 		</el-footer>
 		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible">
-			<el-form :model="form">
-				<el-form-item label="公司名称（中文）" label-width="100">
+			<el-form :model="companyForm" :rules="companyFormRule" ref="companyForm">
+				<el-form-item label="公司名称（中文）" prop="companyNameCn" label-width="100">
 					<el-input size="small" v-model="companyForm.companyNameCn"></el-input>
 				</el-form-item>
-				<el-form-item label="公司名称（英文）" label-width="100">
+				<el-form-item label="公司名称（英文）" prop="companyNameEn" label-width="100">
 					<el-input size="small" v-model="companyForm.companyNameEn"></el-input>
 				</el-form-item>
-				<el-form-item label="公司简介" label-width="100">
+				<el-form-item label="公司简介" prop="companyDesc" label-width="100">
 					<el-input size="small" type="textarea" v-model="companyForm.companyDesc" resize="none" rows="5"></el-input>
 				</el-form-item>
-				<el-form-item label="公司排序" label-width="100">
+				<el-form-item label="公司排序" label-width="100" prop="companyOrder">
 					<el-input-number size="small" v-model="companyForm.companyOrder" :min="1" :max="100"></el-input-number>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
-				<el-button size="small" @click="dialogFormVisible = false">取 消</el-button>
-				<el-button size="small" type="primary" @click="dialogFormVisible = false">确 定</el-button>
+				<el-button size="small" @click="handleCancel">取 消</el-button>
+				<el-button size="small" type="primary" @click="saveCompany">确 定</el-button>
 			</div>
 		</el-dialog>
 	</el-container>
@@ -75,11 +75,29 @@ export default {
       multipleSelection: [],
       companyList: [],
       companyTotal: "",
+      companyId: "",
       companyForm: {
         companyNameCn: "",
         companyNameEn: "",
         companyDesc: "",
         companyOrder: 1
+      },
+      companyFormRule: {
+        companyNameCn: [
+          { min: 1, max: 32, message: "长度在 1 到 32 个字符", trigger: "blur" }
+        ],
+        companyNameEn: [
+          { required: true, message: "请输入公司名称", trigger: "blur" },
+          { min: 1, max: 64, message: "长度在 1 到 64 个字符", trigger: "blur" }
+        ],
+        companyDesc: [
+          {
+            min: 1,
+            max: 255,
+            message: "长度在 1 到 255 个字符",
+            trigger: "blur"
+          }
+        ]
       }
     };
   },
@@ -107,8 +125,61 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
-    handleAddCompany() {
+    handleAddCompany(gameCompany) {
+      gameCompany.id && this.getGameCompanyById(gameCompany.id);
       this.dialogFormVisible = true;
+    },
+    handleCancel() {
+      this.dialogFormVisible = false;
+      this.$refs.companyForm.resetFields();
+    },
+    saveCompany() {
+      this.$refs.companyForm.validate(valid => {
+        if (valid) {
+          if (this.companyId) {
+            userService
+              .putRequest("updateGameCompany", this.companyId, this.companyForm)
+              .then(response => {
+                this.$message({
+                  type: "success",
+                  message: "修改成功!"
+                });
+                this.dialogFormVisible = false;
+                this.$refs.companyForm.resetFields();
+                this.getGameCompanyList(this.searchParams);
+                this.companyId = "";
+              })
+              .catch(error => {});
+          } else {
+            userService
+              .postRequest("addGameCompany", this.companyForm)
+              .then(response => {
+                this.$message({
+                  type: "success",
+                  message: "添加成功!"
+                });
+                this.dialogFormVisible = false;
+                this.$refs.companyForm.resetFields();
+                this.getGameCompanyList(this.searchParams);
+              })
+              .catch(error => {});
+          }
+        } else {
+          return false;
+        }
+      });
+    },
+    getGameCompanyById(id) {
+      userService
+        .getRestfulRequest("getGameCompanyById", id)
+        .then(response => {
+          this.companyForm.companyNameCn = response.data.company_name_cn;
+          this.companyForm.companyNameEn = response.data.company_name_en;
+          this.companyForm.companyDesc = response.data.company_desc;
+          this.companyForm.companyOrder = response.data.order;
+          this.companyId = response.data.id;
+        })
+        .catch(error => {});
     },
     handleDelete(log) {
       let ids = [];

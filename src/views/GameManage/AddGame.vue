@@ -133,7 +133,7 @@ export default {
     },
     getGameById(id) {
       userService
-        .getRestfulRequest("getGameById", id, 1)
+        .getRestfulRequest("getGameById", id)
         .then(response => {
           this.gameForm.gameName = response.data.game_name;
           this.gameForm.gameNameEn = response.data.game_name_en;
@@ -181,7 +181,7 @@ export default {
       this.$refs.gameForm.validate(valid => {
         if (valid) {
           userService
-            .postRequest("getGameList", this.gameForm)
+            .postRequest("addGame", this.gameForm)
             .then(response => {
               this.$message({
                 type: "success",
