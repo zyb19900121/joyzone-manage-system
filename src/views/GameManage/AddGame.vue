@@ -14,22 +14,29 @@
 					</el-form-item>
 
 					<el-form-item label="游戏平台" prop="platform">
-						<el-select size="small" v-model="gameForm.platform" placeholder="请选择游戏平台">
+						<el-select size="small" v-model="gameForm.platform" clearable placeholder="请选择游戏平台">
 							<el-option v-for="(item,index) in platformList" :key="index" :label="item" :value="item">
 							</el-option>
 						</el-select>
 					</el-form-item>
 
 					<el-form-item label="游戏类型" prop="gameType">
-						<el-select size="small" v-model="gameForm.gameType" multiple placeholder="请选择游戏类型">
+						<el-select size="small" v-model="gameForm.gameType" clearable multiple placeholder="请选择游戏类型">
 							<el-option v-for="(type,index) in gameTypeList" :key="index" :label="type" :value="type">
 							</el-option>
 						</el-select>
 					</el-form-item>
 
 					<el-form-item label="游戏语言" prop="gameType">
-						<el-select size="small" v-model="gameForm.gameLanguage" multiple placeholder="请选择游戏语言">
+						<el-select size="small" v-model="gameForm.gameLanguage" clearable multiple placeholder="请选择游戏语言">
 							<el-option v-for="(item,index) in languageList" :key="index" :label="item" :value="item">
+							</el-option>
+						</el-select>
+					</el-form-item>
+
+					<el-form-item label="游戏开发商" prop="gameDevelopers">
+						<el-select v-if="gameDevelopersList" size="small" v-model="gameForm.gameDevelopers" clearable filterable allow-create placeholder="请选择游戏开发商">
+							<el-option v-for="(item, index) in gameDevelopersList" :key="index" :label="item.company_name_en" :value="item.company_name_en">
 							</el-option>
 						</el-select>
 					</el-form-item>
@@ -84,6 +91,7 @@ export default {
       gameTypeList,
       platformList,
       languageList,
+      gameDevelopersList: "",
       fileType: "game_cover", //上传图片的类型，为了存在不同的目录,
       isSoldSwitch: true,
       gameForm: {
@@ -93,6 +101,7 @@ export default {
         gameScore: "",
         gameCover: "",
         gameLanguage: "",
+        gameDevelopers: "",
         platform: "",
         isSold: "1",
         saleDate: "",
@@ -121,6 +130,7 @@ export default {
   },
   created() {
     this.gameId && this.getGameById(this.gameId);
+    this.getGameCompanyList();
   },
   watch: {
     "gameForm.isSold"(newVal) {
@@ -128,6 +138,16 @@ export default {
     }
   },
   methods: {
+    getGameCompanyList() {
+      //获取所有游戏公司，isFilter
+      userService
+        .getRequest("getGameCompanyList", { isFilter: 1 })
+        .then(response => {
+          this.gameDevelopersList = response.data.list;
+          console.log("this.gameDevelopersList: ", this.gameDevelopersList);
+        })
+        .catch(error => {});
+    },
     handleSoldSwitch() {
       this.gameForm.isSold = this.isSoldSwitch ? "1" : "0";
     },
