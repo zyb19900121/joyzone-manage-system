@@ -41,6 +41,13 @@
 						</el-select>
 					</el-form-item>
 
+					<el-form-item label="游戏发行商" prop="gamePublisher">
+						<el-select v-if="gameDevelopersList" size="small" v-model="gameForm.gamePublisher" clearable filterable allow-create placeholder="请选择游戏发行商">
+							<el-option v-for="(item, index) in gameDevelopersList" :key="index" :label="item.company_name_en" :value="item.company_name_en">
+							</el-option>
+						</el-select>
+					</el-form-item>
+
 					<el-form-item label="游戏评分" prop="gameScore">
 						<el-input-number size="small" v-model="gameForm.gameScore" :min="1" :max="10" :precision="1" :step="0.1"></el-input-number>
 					</el-form-item>
@@ -102,6 +109,7 @@ export default {
         gameCover: "",
         gameLanguage: "",
         gameDevelopers: "",
+        gamePublisher: "",
         platform: "",
         isSold: "1",
         saleDate: "",
@@ -166,6 +174,8 @@ export default {
             : [];
           this.gameForm.isSold = response.data.is_sold;
           this.gameForm.gameCover = response.data.game_cover;
+          this.gameForm.gameDevelopers = response.data.game_developers;
+          this.gameForm.gamePublisher = response.data.game_publisher;
           this.gameForm.platform = response.data.platform;
           this.gameForm.saleDate = response.data.sale_date;
           this.gameForm.gameDesc = response.data.game_desc;
