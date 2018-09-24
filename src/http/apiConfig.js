@@ -101,28 +101,61 @@ const apiConfig = {
     url: "/manage/gameCompany",
     method: "GET",
     baseUrl
-	},
-	addGameCompany: {
+  },
+  addGameCompany: {
     //添加新游戏公司
     url: "/manage/gameCompany",
     method: "POST",
     baseUrl
-	},
-	updateGameCompany: {
+  },
+  updateGameCompany: {
     //修改游戏公司
     url: "/manage/gameCompany",
     method: "PUT",
     baseUrl
-	},
-	getGameCompanyById: {
+  },
+  getGameCompanyById: {
     //根据id获取公司详情
     url: "/manage/gameCompany",
     method: "GET",
     baseUrl
   },
-	deleteGameCompany: {
+  deleteGameCompany: {
     //删除游戏公司
     url: "/manage/gameCompany",
+    method: "DELETE",
+    baseUrl
+  },
+
+  /*----------------------------------------游戏类型管理相关接口-----------------------------------------*/
+
+  getGameTypeList: {
+    //获取游戏公司列表
+    url: "/manage/gameType",
+    method: "GET",
+    baseUrl
+  },
+  addGameType: {
+    //添加新游戏类型
+    url: "/manage/gameType",
+    method: "POST",
+    baseUrl
+  },
+  updateGameType: {
+    //修改游戏类型
+    url: "/manage/gameType",
+    method: "PUT",
+    baseUrl
+  },
+  getGameTypeById: {
+    //根据id获取类型详情
+    url: "/manage/gameType",
+    method: "GET",
+    baseUrl
+  },
+  deleteGameType: {
+    //删除游戏类型
+    url: "/manage/gameType",
     method: "DELETE",
     baseUrl
   }

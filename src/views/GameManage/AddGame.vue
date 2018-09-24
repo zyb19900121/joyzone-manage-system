@@ -22,7 +22,7 @@
 
 					<el-form-item label="游戏类型" prop="gameType">
 						<el-select size="small" v-model="gameForm.gameType" clearable multiple placeholder="请选择游戏类型">
-							<el-option v-for="(type,index) in gameTypeList" :key="index" :label="type" :value="type">
+							<el-option v-for="(item,index) in gameTypeList" :key="index" :label="item.type_name_cn" :value="item.type_name_cn">
 							</el-option>
 						</el-select>
 					</el-form-item>
@@ -85,7 +85,7 @@ import { baseUrl } from "utils/env";
 import userService from "http/userService";
 import SubHeader from "components/SubHeader";
 import SubFooter from "components/SubFooter";
-import { platformList, gameTypeList, languageList } from "utils/gameConfig";
+import { platformList, languageList } from "utils/gameConfig";
 export default {
   name: "",
   data() {
@@ -95,10 +95,10 @@ export default {
       loading: false,
       gameId: this.$route.params.id,
       gameList: [],
-      gameTypeList,
       platformList,
       languageList,
-      gameDevelopersList: "",
+      gameTypeList: [],
+      gameDevelopersList: [],
       fileType: "game_cover", //上传图片的类型，为了存在不同的目录,
       isSoldSwitch: true,
       gameForm: {
@@ -139,6 +139,7 @@ export default {
   created() {
     this.gameId && this.getGameById(this.gameId);
     this.getGameCompanyList();
+    this.getGameTypeList();
   },
   watch: {
     "gameForm.isSold"(newVal) {
@@ -152,7 +153,16 @@ export default {
         .getRequest("getGameCompanyList", { isFilter: 1 })
         .then(response => {
           this.gameDevelopersList = response.data.list;
-          console.log("this.gameDevelopersList: ", this.gameDevelopersList);
+        })
+        .catch(error => {});
+    },
+    getGameTypeList() {
+      //获取所有游戏类型，isFilter
+      userService
+        .getRequest("getGameTypeList", { isFilter: 1 })
+        .then(response => {
+          console.log("response: ", response);
+          this.gameTypeList = response.data.list;
         })
         .catch(error => {});
     },

@@ -16,7 +16,7 @@
 				<div class="select">
 					<span class="select-label">游戏类型：</span>
 					<el-select size="small" v-model="searchParams.gameType" placeholder="请选择" @change="handleGameTypeSelect" clearable>
-						<el-option v-for="(item,index) in gameTypeList" :key="index" :label="item" :value="item">
+						<el-option v-for="(item,index) in gameTypeList" :key="index" :label="item.type_name_cn" :value="item.type_name_cn">
 						</el-option>
 					</el-select>
 				</div>
@@ -95,7 +95,7 @@ import userService from "http/userService";
 import SubHeader from "components/SubHeader";
 import SubFooter from "components/SubFooter";
 import ConditionFilter from "components/ConditionFilter";
-import { platformList, gameTypeList } from "utils/gameConfig";
+import { platformList } from "utils/gameConfig";
 export default {
   name: "",
   data() {
@@ -104,7 +104,6 @@ export default {
       pageTitle: "游戏库",
       loading: false,
       platformList,
-      gameTypeList,
       searchParams: {
         pageSize: 16,
         currentPage: 1,
@@ -113,6 +112,7 @@ export default {
         isSold: true
       },
       gameList: [],
+      gameTypeList: [],
       gameTotal: 0,
       detailShowIndex: "",
       orderByOptions: [
@@ -135,6 +135,9 @@ export default {
       ]
     };
   },
+  created() {
+    this.getGameTypeList();
+  },
   mounted() {
     if (this.$route.params.searchParams) {
       this.searchParams = this.$route.params.searchParams;
@@ -144,6 +147,16 @@ export default {
     this.getGameList(this.searchParams);
   },
   methods: {
+    getGameTypeList() {
+      //获取所有游戏类型，isFilter
+      userService
+        .getRequest("getGameTypeList", { isFilter: 1 })
+        .then(response => {
+          console.log("response: ", response);
+          this.gameTypeList = response.data.list;
+        })
+        .catch(error => {});
+    },
     addGame(id) {
       id = id || "";
       this.$router.push({
@@ -152,8 +165,8 @@ export default {
       });
     },
     getGameList(searchParams) {
-			this.loading = true;
-			this.gameList = [];
+      this.loading = true;
+      this.gameList = [];
       userService
         .getRequest("getGameList", searchParams)
         .then(response => {
