@@ -158,6 +158,14 @@ const apiConfig = {
     url: "/manage/gameType",
     method: "DELETE",
     baseUrl
+  },
+  /*----------------------------------------游戏资讯相关接口-----------------------------------------*/
+
+  getNewsList: {
+    //获取游戏公司列表
+    url: "/manage/gameNews",
+    method: "GET",
+    baseUrl
   }
 };
 

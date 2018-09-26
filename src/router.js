@@ -70,6 +70,41 @@ export default new Router({
               }
             }
           ]
+				},
+				{
+          //游戏资讯管理
+          path: "gameNewsManage",
+          name: "gameNewsManage",
+          component: () =>
+            import(/* webpackChunkName: "myGame" */ "views/GameNewsManage/GameNewsManage.vue"),
+          meta: {
+            requireAuth: true
+					},
+					redirect: {
+						name: "gameNewsList"
+					},
+          children: [
+            {
+              //游戏资讯列表
+              path: "gameNewsList",
+              name: "gameNewsList",
+              component: () =>
+                import(/* webpackChunkName: "myGame" */ "views/GameNewsManage/GameNewsList.vue"),
+              meta: {
+                requireAuth: true
+              }
+						}
+						// {
+            //   //添加游戏
+            //   path: "addGame",
+            //   name: "addGame",
+            //   component: () =>
+            //     import(/* webpackChunkName: "myGame" */ "views/GameManage/AddGame.vue"),
+            //   meta: {
+            //     requireAuth: true
+            //   }
+            // }
+          ]
         },
         {
           //添加游戏
