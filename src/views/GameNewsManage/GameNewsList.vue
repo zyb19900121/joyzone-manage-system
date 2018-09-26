@@ -1,8 +1,8 @@
 <template>
-	<el-container class="sub-page game-news-manage">
+	<el-container class="sub-page game-news-list">
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
-			<ConditionFilter ref="conditionFilter" showAddBtn showKeywordSearch addBtnName="添加资讯" @addGame="addGame" @refreshData="refreshData">
+			<ConditionFilter ref="conditionFilter" showAddBtn addBtnName="添加资讯" @addGame="addGame" @refreshData="refreshData">
 				<div class="select">
 					<span class="select-label">游戏平台：</span>
 					<el-select size="small" v-model="searchParams.platform" placeholder="请选择" @change="handlePlatformSelect" clearable>
@@ -21,7 +21,12 @@
 					</el-table-column>
 					<el-table-column prop="news_content" show-overflow-tooltip label="资讯内容">
 					</el-table-column>
-					<el-table-column prop="platform" label="所属平台" width="200">
+					<el-table-column label="资讯缩略图" width="100">
+						<template slot-scope="scope">
+							<img :src="scope.row.news_thumbnail == '/public/system/default_avatar.jpg' ? `${baseUrl}${scope.row.news_thumbnail}`:scope.row.news_thumbnail" alt="" width="30" height="30">
+						</template>
+					</el-table-column>
+					<el-table-column prop="platform" label="所属平台" width="150">
 					</el-table-column>
 					<el-table-column prop="game_name" show-overflow-tooltip label="所属游戏" width="200">
 					</el-table-column>
@@ -38,7 +43,7 @@
 			</el-main>
 		</el-scrollbar>
 		<el-footer>
-			<SubFooter ref="subFooter" :showPagination="Boolean(newsTotal)" :total="newsTotal" @refreshData="refreshData"></SubFooter>
+			<SubFooter ref="subFooter" showDelete :showPagination="Boolean(newsTotal)" :total="newsTotal" @refreshData="refreshData" @handleDelete="handleDelete"></SubFooter>
 		</el-footer>
 	</el-container>
 </template>
@@ -58,6 +63,7 @@ export default {
       pageTitle: "游戏资讯",
       loading: false,
       platformList,
+      multipleSelection: [],
       searchParams: {
         pageSize: 16,
         currentPage: 1,
@@ -104,11 +110,21 @@ export default {
       this.getNewsList(this.searchParams);
     },
     refreshData(searchParams, isConditionSearch) {
-      // Object.assign(this.searchParams, searchParams);
-      // this.getGameList(this.searchParams);
+      Object.assign(this.searchParams, searchParams);
+      this.getNewsList(this.searchParams);
       // isConditionSearch && this.$refs.subFooter.ininPageConfig();
     },
-    handleDelete(id) {
+    handleDelete(news) {
+      let ids = [];
+      if (!news) {
+        this.multipleSelection.length &&
+          this.multipleSelection.map(item => {
+            ids.push(item.id);
+          });
+      }
+      let idsLength = ids.length;
+      ids = ids.length ? ids.join(",") : news.id;
+
       this.$confirm("您确定是否要删除此资讯?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -116,14 +132,15 @@ export default {
       })
         .then(() => {
           userService
-            .deleteRequest("deleteNews", id)
+            .deleteRequest("deleteNews", ids)
+
             .then(response => {
               this.$message({
                 type: "success",
                 message: "删除成功!"
               });
               if (
-                this.newsList.length === 1 &&
+                idsLength === this.newsList.length &&
                 this.searchParams.currentPage > 1
               ) {
                 this.searchParams.currentPage =
@@ -135,7 +152,9 @@ export default {
         })
         .catch(() => {});
     },
-    handleSelectionChange() {}
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+    }
   },
   components: {
     SubHeader,

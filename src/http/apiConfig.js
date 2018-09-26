@@ -166,7 +166,13 @@ const apiConfig = {
     url: "/manage/gameNews",
     method: "GET",
     baseUrl
-  }
+	},
+	deleteNews: {
+    //删除游戏类型
+    url: "/manage/gameNews",
+    method: "DELETE",
+    baseUrl
+  },
 };
 
 export { baseUrl, apiConfig };
