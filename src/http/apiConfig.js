@@ -162,17 +162,23 @@ const apiConfig = {
   /*----------------------------------------游戏资讯相关接口-----------------------------------------*/
 
   getNewsList: {
-    //获取游戏公司列表
+    //获取游戏资讯列表
     url: "/manage/gameNews",
     method: "GET",
     baseUrl
-	},
-	deleteNews: {
-    //删除游戏类型
+  },
+  addNews: {
+    //添加游戏资讯
+    url: "/manage/gameNews",
+    method: "POST",
+    baseUrl
+  },
+  deleteNews: {
+    //删除游戏资讯
     url: "/manage/gameNews",
     method: "DELETE",
     baseUrl
-  },
+  }
 };
 
 export { baseUrl, apiConfig };

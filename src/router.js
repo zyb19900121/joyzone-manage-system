@@ -93,17 +93,17 @@ export default new Router({
               meta: {
                 requireAuth: true
               }
-						}
-						// {
-            //   //添加游戏
-            //   path: "addGame",
-            //   name: "addGame",
-            //   component: () =>
-            //     import(/* webpackChunkName: "myGame" */ "views/GameManage/AddGame.vue"),
-            //   meta: {
-            //     requireAuth: true
-            //   }
-            // }
+						},
+						{
+              //添加资讯
+              path: "addNews",
+              name: "addNews",
+              component: () =>
+                import(/* webpackChunkName: "myGame" */ "views/GameNewsManage/AddNews.vue"),
+              meta: {
+                requireAuth: true
+              }
+            }
           ]
         },
         {

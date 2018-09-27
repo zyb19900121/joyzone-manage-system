@@ -2,7 +2,7 @@
 	<el-container class="sub-page game-news-list">
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
-			<ConditionFilter ref="conditionFilter" showAddBtn addBtnName="添加资讯" @addGame="addGame" @refreshData="refreshData">
+			<ConditionFilter ref="conditionFilter" showAddBtn addBtnName="添加资讯" @addGame="addNews" @refreshData="refreshData">
 				<div class="select">
 					<span class="select-label">游戏平台：</span>
 					<el-select size="small" v-model="searchParams.platform" placeholder="请选择" @change="handlePlatformSelect" clearable>
