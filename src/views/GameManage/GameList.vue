@@ -152,7 +152,7 @@ export default {
       userService
         .getRequest("getGameTypeList", { isFilter: 1 })
         .then(response => {
-          console.log("response: ", response);
+          
           this.gameTypeList = response.data.list;
         })
         .catch(error => {});

@@ -23,7 +23,7 @@
 					</el-table-column>
 					<el-table-column label="资讯缩略图" width="100">
 						<template slot-scope="scope">
-							<img :src="scope.row.news_thumbnail == '/public/system/default_avatar.jpg' ? `${baseUrl}${scope.row.news_thumbnail}`:scope.row.news_thumbnail" alt="" width="30" height="30">
+							<img :src="`${baseUrl}${scope.row.news_thumbnail}`" alt="" width="30" height="30">
 						</template>
 					</el-table-column>
 					<el-table-column prop="platform" label="所属平台" width="150">
@@ -35,7 +35,7 @@
 					</el-table-column>
 					<el-table-column label="操作" width="145">
 						<template slot-scope="scope">
-							<el-button size="mini" type="primary" @click="addNews(scope.row)" v-permission>编辑</el-button>
+							<el-button size="mini" type="primary" @click="addNews(scope.row.id)" v-permission>编辑</el-button>
 							<el-button size="mini" type="danger" @click="handleDelete(scope.row)" v-permission>删除</el-button>
 						</template>
 					</el-table-column>

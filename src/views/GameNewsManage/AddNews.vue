@@ -10,23 +10,30 @@
 						<el-input size="small" v-model="newsForm.newsTitle" clearable></el-input>
 					</el-form-item>
 
-					<el-form-item label="资讯简介" prop="gameDesc">
-						<el-input size="small" type="textarea" v-model="newsForm.newsContent" resize="none" rows="5"></el-input>
-					</el-form-item>
-
-					<el-form-item label="资讯平台" prop="platform">
+					<el-form-item label="资讯所属平台" prop="platform">
 						<el-select size="small" v-model="newsForm.platform" clearable placeholder="请选择游戏平台">
 							<el-option v-for="(item,index) in platformList" :key="index" :label="item" :value="item">
 							</el-option>
 						</el-select>
 					</el-form-item>
 
-					<!-- <el-form-item label="游戏封面" prop="gameCover">
+					<el-form-item label="资讯所属游戏" prop="platform">
+						<el-select size="small" v-model="newsForm.gameId" clearable placeholder="请选择游戏">
+							<el-option v-for="(item,index) in gameList" :key="index" :label="item.game_name" :value="item.id">
+							</el-option>
+						</el-select>
+					</el-form-item>
+
+					<el-form-item label="资讯缩略图" prop="gameCover">
 						<el-upload class="avatar-uploader" :http-request="httpRequest" :action="''" :show-file-list="false" :before-upload="beforeUpload">
-							<img v-if="gameForm.gameCover" :src="baseUrl+gameForm.gameCover" class="avatar">
+							<img v-if="newsForm.newsThumbnail" :src="baseUrl+newsForm.newsThumbnail" class="avatar">
 							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 						</el-upload>
-					</el-form-item> -->
+					</el-form-item>
+
+					<el-form-item label="资讯内容" prop="gameDesc">
+						<el-input size="small" type="textarea" v-model="newsForm.newsContent" resize="none" rows="5"></el-input>
+					</el-form-item>
 
 				</el-form>
 			</el-main>
@@ -52,14 +59,14 @@ export default {
       loading: false,
       newsId: this.$route.params.id,
       gameList: [],
-      platformList,
+      platformList: ["全部", ...platformList],
       fileType: "news_thumbnail", //上传图片的类型，为了存在不同的目录,
       newsForm: {
         newsTitle: "",
         newsContent: "",
         newsThumbnail: "",
         platform: "",
-        gameId: ""
+        gameId: null
       },
       newsFormRule: {
         newsTitle: [
@@ -72,32 +79,32 @@ export default {
     };
   },
   created() {
-    // this.gameId && this.getGameById(this.gameId);
+    this.getGameList();
+    this.newsId && this.getNewsById(this.newsId);
   },
   methods: {
-    // getGameById(id) {
-    //   userService
-    //     .getRestfulRequest("getGameById", id)
-    //     .then(response => {
-    //       this.gameForm.gameName = response.data.game_name;
-    //       this.gameForm.gameNameEn = response.data.game_name_en;
-    //       this.gameForm.gameScore = response.data.game_score;
-    //       this.gameForm.gameType = response.data.game_type
-    //         ? response.data.game_type.split(",")
-    //         : [];
-    //       this.gameForm.gameLanguage = response.data.game_language
-    //         ? response.data.game_language.split(",")
-    //         : [];
-    //       this.gameForm.isSold = response.data.is_sold;
-    //       this.gameForm.gameCover = response.data.game_cover;
-    //       this.gameForm.gameDevelopers = response.data.game_developers;
-    //       this.gameForm.gamePublisher = response.data.game_publisher;
-    //       this.gameForm.platform = response.data.platform;
-    //       this.gameForm.saleDate = response.data.sale_date;
-    //       this.gameForm.gameDesc = response.data.game_desc;
-    //     })
-    //     .catch(error => {});
-    // },
+    getGameList() {
+      //获取所有游戏，isFilter用于根据游戏名进行筛选
+      userService
+        .getRequest("getGameList", { isFilter: 1 })
+        .then(response => {
+          this.gameList = response.data.list;
+        })
+        .catch(error => {});
+    },
+    getNewsById(id) {
+      userService
+        .getRestfulRequest("getNewsById", id)
+        .then(response => {
+          console.log("response: ", response);
+          this.newsForm.newsTitle = response.data.news_title;
+          this.newsForm.newsContent = response.data.news_content;
+          this.newsForm.newsThumbnail = response.data.news_thumbnail;
+          this.newsForm.platform = response.data.platform;
+          this.newsForm.gameId = response.data.game_id;
+        })
+        .catch(error => {});
+    },
     beforeUpload(file) {
       this.file = file;
       let types = ["image/jpeg", "image/png"];
@@ -116,7 +123,7 @@ export default {
       userService
         .uploadRequest("fileUpload", { file: this.file, type: this.fileType })
         .then(response => {
-          this.gameForm.gameCover = response.data.url;
+          this.newsForm.newsThumbnail = response.data.url;
         })
         .catch(error => {});
     },
@@ -147,10 +154,10 @@ export default {
       });
     },
     updateNews() {
-      this.$refs.gameForm.validate(valid => {
+      this.$refs.newsForm.validate(valid => {
         if (valid) {
           userService
-            .putRequest("updateGame", this.gameId, this.gameForm)
+            .putRequest("updateNews", this.newsId, this.newsForm)
             .then(response => {
               this.$message({
                 type: "success",

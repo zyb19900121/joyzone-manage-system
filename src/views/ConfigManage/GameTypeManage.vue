@@ -173,7 +173,7 @@ export default {
       userService
         .getRestfulRequest("getGameTypeById", id)
         .then(response => {
-          console.log("response: ", response);
+          
           this.typeForm.typeNameCn = response.data.type_name_cn;
           this.typeForm.typeNameEn = response.data.type_name_en;
           this.typeForm.typeDesc = response.data.type_desc;

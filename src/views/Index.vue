@@ -8,7 +8,7 @@
 				<Aside></Aside>
 			</el-aside>
 			<el-main>
-				<router-view/>
+				<router-view />
 			</el-main>
 		</el-container>
 	</el-container>
@@ -21,16 +21,13 @@ import Aside from "components/Aside";
 export default {
   name: "home",
   created() {
-    console.log(process.env.NODE_ENV);
     // this.getGameList();
   },
   methods: {
     getGameList() {
       userService
-        .getRequest("getGameList", { isSold: 1 , isFilter: 1})
-        .then(response => {
-          console.log("response: ", response);
-        })
+        .getRequest("getGameList", { isSold: 1, isFilter: 1 })
+        .then(response => {})
         .catch(error => {});
     }
   },

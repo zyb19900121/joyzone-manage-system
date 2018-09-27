@@ -167,10 +167,22 @@ const apiConfig = {
     method: "GET",
     baseUrl
   },
+  getNewsById: {
+    //根据ID获取游戏资讯
+    url: "/manage/gameNews",
+    method: "GET",
+    baseUrl
+  },
   addNews: {
     //添加游戏资讯
     url: "/manage/gameNews",
     method: "POST",
+    baseUrl
+  },
+  updateNews: {
+    //更新资讯
+    url: "/manage/gameNews",
+    method: "PUT",
     baseUrl
   },
   deleteNews: {
