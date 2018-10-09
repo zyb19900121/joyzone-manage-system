@@ -3,6 +3,7 @@
 		<el-header>
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
 			<ConditionFilter ref="conditionFilter" showAddBtn addBtnName="添加资讯" @addGame="addNews" @refreshData="refreshData">
+				<el-checkbox v-model="searchParams.isBanner" @change="handleIsBannerSelect">Banner新闻</el-checkbox>
 				<div class="select">
 					<span class="select-label">游戏平台：</span>
 					<el-select size="small" v-model="searchParams.platform" placeholder="请选择" @change="handlePlatformSelect" clearable>
@@ -19,8 +20,8 @@
 					</el-table-column>
 					<el-table-column prop="news_title" label="资讯标题">
 					</el-table-column>
-					<el-table-column prop="news_content" show-overflow-tooltip label="资讯内容">
-					</el-table-column>
+					<!-- <el-table-column prop="news_content" show-overflow-tooltip label="资讯内容">
+					</el-table-column> -->
 					<el-table-column label="资讯缩略图" width="100">
 						<template slot-scope="scope">
 							<img :src="`${baseUrl}${scope.row.news_thumbnail}`" alt="" width="30" height="30">
@@ -67,7 +68,8 @@ export default {
       searchParams: {
         pageSize: 16,
         currentPage: 1,
-        platform: ""
+        platform: "",
+        isBanner: false
       },
       newsList: [],
       newsTotal: 0
@@ -154,6 +156,11 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+    handleIsBannerSelect(val) {
+      this.searchParams.currentPage = 1;
+      this.$refs.subFooter.ininPageConfig();
+      this.getNewsList(this.searchParams);
     }
   },
   components: {

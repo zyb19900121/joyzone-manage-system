@@ -3,7 +3,14 @@ import App from "./App.vue";
 import ElementUI from "element-ui";
 // import "element-ui/lib/theme-chalk/index.css";
 import VueParticles from "vue-particles";
-import VueLazyload from 'vue-lazyload'
+import VueLazyload from "vue-lazyload";
+
+//富文本编辑器
+import VueQuillEditor, { Quill } from "vue-quill-editor";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
+
 import router from "./router";
 import store from "./store";
 import filter from "./utils/filter"; //全局filter
@@ -20,7 +27,8 @@ Vue.use(VueLazyload, {
   // error: '/src/assets/img/logo_top.png',
   // loading: require('./assets/img/bg.jpg'),
   attempt: 1
-})
+});
+Vue.use(VueQuillEditor /* { default global options } */);
 
 //路由拦截(查看localstorage中是否存有token)
 router.beforeEach((to, from, next) => {

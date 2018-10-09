@@ -1,5 +1,6 @@
 // vue.config.js
 const path = require("path");
+var webpack = require("webpack");
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -29,8 +30,8 @@ module.exports = {
       "vue-router": "VueRouter",
       vuex: "Vuex",
       axios: "axios",
-			"element-ui": "ELEMENT",
-			"vue-lazyload": "VueLazyload"
+      "element-ui": "ELEMENT",
+      "vue-lazyload": "VueLazyload"
     });
 
     config.resolve.alias
@@ -64,5 +65,13 @@ module.exports = {
 
   pluginOptions: {
     // ...
+  },
+  configureWebpack: {
+    plugins: [
+      new webpack.ProvidePlugin({
+        "window.Quill": "quill/dist/quill.js",
+        Quill: "quill/dist/quill.js"
+      })
+    ]
   }
 };

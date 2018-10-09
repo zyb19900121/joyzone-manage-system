@@ -31,8 +31,14 @@
 						</el-upload>
 					</el-form-item>
 
-					<el-form-item label="资讯内容" prop="gameDesc">
-						<el-input size="small" type="textarea" v-model="newsForm.newsContent" resize="none" rows="5"></el-input>
+					<el-form-item class="rich-text" label="资讯内容" prop="gameDesc">
+						<!-- <el-input size="small" type="textarea" v-model="newsForm.newsContent" resize="none" rows="5"></el-input> -->
+						<quill-editor v-model="newsForm.newsContent" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
+						</quill-editor>
+					</el-form-item>
+
+					<el-form-item label="Banner新闻" prop="isBanner">
+						<el-switch v-model="isBanner" @change="handleBannerSwitch"></el-switch>
 					</el-form-item>
 
 				</el-form>
@@ -50,6 +56,12 @@ import userService from "http/userService";
 import SubHeader from "components/SubHeader";
 import SubFooter from "components/SubFooter";
 import { platformList, languageList } from "utils/gameConfig";
+import VueQuillEditor, { Quill } from "vue-quill-editor";
+import { ImageDrop } from "quill-image-drop-module";
+import ImageResize from "quill-image-resize-module";
+Quill.register("modules/imageDrop", ImageDrop);
+Quill.register("modules/imageResize", ImageResize);
+
 export default {
   name: "",
   data() {
@@ -61,11 +73,13 @@ export default {
       gameList: [],
       platformList: ["全部", ...platformList],
       fileType: "news_thumbnail", //上传图片的类型，为了存在不同的目录,
+      isBanner: false,
       newsForm: {
         newsTitle: "",
         newsContent: "",
         newsThumbnail: "",
         platform: "",
+        isBanner: "0",
         gameId: null
       },
       newsFormRule: {
@@ -74,9 +88,47 @@ export default {
           { min: 1, max: 32, message: "长度在 1 到 32 个字符", trigger: "blur" }
         ]
       },
-
-      accept: "image/jpg, image/jpeg, image/png, image/bmp, image/gif"
+      accept: "image/jpg, image/jpeg, image/png, image/bmp, image/gif",
+      editorOption: {
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline", "strike"],
+            ["blockquote", "code-block"],
+            [{ header: 1 }, { header: 2 }],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ script: "sub" }, { script: "super" }],
+            [{ indent: "-1" }, { indent: "+1" }],
+            [{ direction: "rtl" }],
+            [{ size: ["small", false, "large", "huge"] }],
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+            [{ font: [] }],
+            [{ color: [] }, { background: [] }],
+            [{ align: [] }],
+            ["clean"],
+            ["link", "image", "video"]
+          ],
+          history: {
+            delay: 1000,
+            maxStack: 50,
+            userOnly: false
+          },
+          imageDrop: true,
+          imageResize: {
+            displayStyles: {
+              backgroundColor: "black",
+              border: "none",
+              color: "white"
+            },
+            modules: ["Resize", "DisplaySize", "Toolbar"]
+          }
+        }
+      }
     };
+  },
+  watch: {
+    "newsForm.isBanner"(newVal) {
+      this.isBanner = newVal == "1" ? true : false;
+    }
   },
   created() {
     this.getGameList();
@@ -96,12 +148,12 @@ export default {
       userService
         .getRestfulRequest("getNewsById", id)
         .then(response => {
-          console.log("response: ", response);
           this.newsForm.newsTitle = response.data.news_title;
           this.newsForm.newsContent = response.data.news_content;
           this.newsForm.newsThumbnail = response.data.news_thumbnail;
           this.newsForm.platform = response.data.platform;
           this.newsForm.gameId = response.data.game_id;
+          this.newsForm.isBanner = response.data.is_banner;
         })
         .catch(error => {});
     },
@@ -184,7 +236,13 @@ export default {
           searchParams: this.$route.params.searchParams
         }
       });
-    }
+    },
+    handleBannerSwitch() {
+      this.newsForm.isBanner = this.isBanner ? "1" : "0";
+    },
+    onEditorBlur() {},
+    onEditorFocus() {},
+    onEditorReady() {}
   },
   components: {
     SubHeader,
