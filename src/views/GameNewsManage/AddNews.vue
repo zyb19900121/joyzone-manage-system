@@ -32,9 +32,15 @@
 					</el-form-item>
 
 					<el-form-item class="rich-text" label="资讯内容" prop="gameDesc">
+						<el-upload class="avatar-uploader contentUpload" :http-request="httpRequestContent" :action="''" name="img" :show-file-list="false" :before-upload="newsContentbeforeUpload">
+						</el-upload>
+						<!--富文本编辑器组件-->
+						<el-row v-loading="quillUpdateImg">
+							<quill-editor v-model="newsForm.newsContent" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
+							</quill-editor>
+						</el-row>
 						<!-- <el-input size="small" type="textarea" v-model="newsForm.newsContent" resize="none" rows="5"></el-input> -->
-						<quill-editor v-model="newsForm.newsContent" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
-						</quill-editor>
+
 					</el-form-item>
 
 					<el-form-item label="Banner新闻" prop="isBanner">
@@ -55,7 +61,7 @@ import { baseUrl } from "utils/env";
 import userService from "http/userService";
 import SubHeader from "components/SubHeader";
 import SubFooter from "components/SubFooter";
-import { platformList, languageList } from "utils/gameConfig";
+import { platformList, languageList, toolbarOptions } from "utils/gameConfig";
 import VueQuillEditor, { Quill } from "vue-quill-editor";
 import { ImageDrop } from "quill-image-drop-module";
 import ImageResize from "quill-image-resize-module";
@@ -89,24 +95,22 @@ export default {
         ]
       },
       accept: "image/jpg, image/jpeg, image/png, image/bmp, image/gif",
+      quillUpdateImg: false,
       editorOption: {
         modules: {
-          toolbar: [
-            ["bold", "italic", "underline", "strike"],
-            ["blockquote", "code-block"],
-            [{ header: 1 }, { header: 2 }],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }],
-            [{ indent: "-1" }, { indent: "+1" }],
-            [{ direction: "rtl" }],
-            [{ size: ["small", false, "large", "huge"] }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ font: [] }],
-            [{ color: [] }, { background: [] }],
-            [{ align: [] }],
-            ["clean"],
-            ["link", "image", "video"]
-          ],
+          toolbar: {
+            container: toolbarOptions, // 工具栏
+            handlers: {
+              image: function(value) {
+                if (value) {
+                  // 触发input框选择图片文件
+                  document.querySelector(".contentUpload input").click();
+                } else {
+                  this.quill.format("image", false);
+                }
+              }
+            }
+          },
           history: {
             delay: 1000,
             maxStack: 50,
@@ -242,7 +246,44 @@ export default {
     },
     onEditorBlur() {},
     onEditorFocus() {},
-    onEditorReady() {}
+    onEditorReady() {},
+    httpRequestContent() {
+      userService
+        .uploadRequest("fileUpload", {
+          file: this.contentFile,
+          type: "news_content"
+        })
+        .then(response => {
+          let quill = this.$refs.myQuillEditor.quill;
+          if (response.status == "200") {
+            // 获取光标所在位置
+            let length = quill.getSelection().index;
+            // 插入图片  res.info为服务器返回的图片地址
+            quill.insertEmbed(length, "image", this.baseUrl+response.data.url);
+            // 调整光标到最后
+            quill.setSelection(length + 1);
+          } else {
+            this.$message.error("图片插入失败");
+          }
+          this.quillUpdateImg = false;
+        })
+        .catch(error => {});
+    },
+    newsContentbeforeUpload(file) {
+      this.quillUpdateImg = true;
+      this.contentFile = file;
+      let types = ["image/jpeg", "image/png"];
+      const isType = types.includes(file.type);
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isType) {
+        this.$message.error("上传游戏封面只能是JPG或PNG格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传游戏封大小不能超过2MB!");
+      }
+      return isType && isLt2M;
+    }
   },
   components: {
     SubHeader,
