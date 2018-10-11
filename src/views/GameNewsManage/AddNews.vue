@@ -86,7 +86,8 @@ export default {
         newsThumbnail: "",
         platform: "",
         isBanner: "0",
-        gameId: null
+        gameId: null,
+        viewsCount: 0
       },
       newsFormRule: {
         newsTitle: [
@@ -157,7 +158,8 @@ export default {
           this.newsForm.newsThumbnail = response.data.news_thumbnail;
           this.newsForm.platform = response.data.platform;
           this.newsForm.gameId = response.data.game_id;
-          this.newsForm.isBanner = response.data.is_banner;
+					this.newsForm.isBanner = response.data.is_banner;
+					this.newsForm.viewsCount = response.data.views_count;
         })
         .catch(error => {});
     },
@@ -259,7 +261,11 @@ export default {
             // 获取光标所在位置
             let length = quill.getSelection().index;
             // 插入图片  res.info为服务器返回的图片地址
-            quill.insertEmbed(length, "image", this.baseUrl+response.data.url);
+            quill.insertEmbed(
+              length,
+              "image",
+              this.baseUrl + response.data.url
+            );
             // 调整光标到最后
             quill.setSelection(length + 1);
           } else {
