@@ -36,7 +36,7 @@
 						</el-upload>
 						<!--富文本编辑器组件-->
 						<el-row v-loading="quillUpdateImg">
-							<quill-editor v-model="newsForm.newsContent" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
+							<quill-editor style="white-space:pre" v-model="newsForm.newsContent" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
 							</quill-editor>
 						</el-row>
 						<!-- <el-input size="small" type="textarea" v-model="newsForm.newsContent" resize="none" rows="5"></el-input> -->
@@ -67,6 +67,30 @@ import { ImageDrop } from "quill-image-drop-module";
 import ImageResize from "quill-image-resize-module";
 Quill.register("modules/imageDrop", ImageDrop);
 Quill.register("modules/imageResize", ImageResize);
+var BaseImageFormat = Quill.import("formats/image");
+const ImageFormatAttributesList = ["alt", "height", "width", "style"];
+class ImageFormat extends BaseImageFormat {
+  static formats(domNode) {
+    return ImageFormatAttributesList.reduce(function(formats, attribute) {
+      if (domNode.hasAttribute(attribute)) {
+        formats[attribute] = domNode.getAttribute(attribute);
+      }
+      return formats;
+    }, {});
+  }
+  format(name, value) {
+    if (ImageFormatAttributesList.indexOf(name) > -1) {
+      if (value) {
+        this.domNode.setAttribute(name, value);
+      } else {
+        this.domNode.removeAttribute(name);
+      }
+    } else {
+      super.format(name, value);
+    }
+  }
+}
+Quill.register(ImageFormat, true);
 
 export default {
   name: "",
@@ -107,6 +131,7 @@ export default {
                   // 触发input框选择图片文件
                   document.querySelector(".contentUpload input").click();
                 } else {
+                  console.log("!!!!!!");
                   this.quill.format("image", false);
                 }
               }
@@ -158,8 +183,8 @@ export default {
           this.newsForm.newsThumbnail = response.data.news_thumbnail;
           this.newsForm.platform = response.data.platform;
           this.newsForm.gameId = response.data.game_id;
-					this.newsForm.isBanner = response.data.is_banner;
-					this.newsForm.viewsCount = response.data.views_count;
+          this.newsForm.isBanner = response.data.is_banner;
+          this.newsForm.viewsCount = response.data.views_count;
         })
         .catch(error => {});
     },

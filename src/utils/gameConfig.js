@@ -33,7 +33,7 @@ const toolbarOptions = [
   [{ font: [] }],
   [{ align: [] }],
   ["link", "image", "video"],
-  ["clean"] // remove formatting button
+	["clean"], // remove formatting button
 ];
 
 export { platformList, languageList, gameTypeList, toolbarOptions };
