@@ -192,7 +192,7 @@ export default {
     },
     beforeUpload(file) {
       this.file = file;
-      let types = ["image/jpeg", "image/png"];
+      let types = ["image/jpeg", "image/png", "image/gif"];
       const isType = types.includes(file.type);
       const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -305,7 +305,7 @@ export default {
     newsContentbeforeUpload(file) {
       this.quillUpdateImg = true;
       this.contentFile = file;
-      let types = ["image/jpeg", "image/png"];
+      let types = ["image/jpeg", "image/png", "image/gif"];
       const isType = types.includes(file.type);
       const isLt2M = file.size / 1024 / 1024 < 2;
 
