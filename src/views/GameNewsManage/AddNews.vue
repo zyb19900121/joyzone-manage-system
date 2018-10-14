@@ -117,8 +117,8 @@ export default {
       },
       newsFormRule: {
         newsTitle: [
-          { required: true, message: "请输入游戏名称", trigger: "blur" },
-          { min: 1, max: 32, message: "长度在 1 到 32 个字符", trigger: "blur" }
+          { required: true, message: "请输入资讯标题", trigger: "blur" },
+          { min: 1, max: 64, message: "长度在 1 到 64 个字符", trigger: "blur" }
         ]
       },
       accept: "image/jpg, image/jpeg, image/png, image/bmp, image/gif",
