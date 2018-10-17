@@ -18,7 +18,7 @@
 					</el-form-item>
 
 					<el-form-item label="资讯所属游戏" prop="platform">
-						<el-select size="small" v-model="newsForm.gameId" clearable placeholder="请选择游戏">
+						<el-select size="small" v-model="newsForm.gameId" clearable filterable placeholder="请选择游戏">
 							<el-option v-for="(item,index) in gameList" :key="index" :label="item.game_name" :value="item.id">
 							</el-option>
 						</el-select>
@@ -32,7 +32,7 @@
 					</el-form-item>
 
 					<el-form-item class="rich-text" label="资讯内容" prop="gameDesc">
-						<el-upload class="avatar-uploader contentUpload" :http-request="httpRequestContent" :action="''" name="img" :show-file-list="false" :before-upload="newsContentbeforeUpload">
+						<el-upload v-show="false" class="avatar-uploader contentUpload" :http-request="httpRequestContent" :action="''" name="img" :show-file-list="false" :before-upload="newsContentbeforeUpload">
 						</el-upload>
 						<!--富文本编辑器组件-->
 						<el-row v-loading="quillUpdateImg">
