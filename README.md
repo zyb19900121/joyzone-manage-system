@@ -1,6 +1,17 @@
 # my-game-system
 本项目是微信小程序myGame的后台管理系统，主要用于对小程序中的数据进行增删改查
 
+
+## 项目截图
+
+<img width="800" height="auto" src="http://static.joyzone.xyz/image/manageSys01.png" />
+
+<img width="800" height="auto" src="http://static.joyzone.xyz/image/manageSys02.png" />
+
+<img width="800" height="auto" src="http://static.joyzone.xyz/image/manageSys03.png" />
+
+<img width="800" height="auto" src="http://static.joyzone.xyz/image/manageSys04.png" />
+
 框架：vue（利用vue-cli 3.0搭建）
 UI：[element-ui][element-ui]
 
