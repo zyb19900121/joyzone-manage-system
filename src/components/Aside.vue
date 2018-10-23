@@ -8,7 +8,7 @@
 				</template>
 				<el-menu-item index="/gameManage">游戏库</el-menu-item>
 				<el-menu-item index="/gameNewsManage">游戏资讯</el-menu-item>
-				<el-menu-item index="">游戏图集</el-menu-item>
+				<el-menu-item index="/gameGalleryManage">游戏图集</el-menu-item>
 			</el-submenu>
 			<el-submenu index="2">
 				<template slot="title">

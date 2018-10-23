@@ -5,7 +5,7 @@
 			<ConditionFilter showDatePicker>
 				<div class="select">
 					<span class="select-label">游戏名称：</span>
-					<el-select size="small" v-model="searchParams.gameId" placeholder="请选择" @change="handleGameSelect" clearable>
+					<el-select size="small" v-model="searchParams.gameId" placeholder="请选择" @change="handleGameSelect" clearable filterable>
 						<el-option v-for="(item,index) in gameList" :key="index" :label="item.game_name" :value="item.id">
 						</el-option>
 					</el-select>

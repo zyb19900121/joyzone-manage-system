@@ -44,10 +44,10 @@ export default new Router({
             import(/* webpackChunkName: "myGame" */ "views/GameManage/GameManage.vue"),
           meta: {
             requireAuth: true
-					},
-					redirect: {
-						name: "gameList"
-					},
+          },
+          redirect: {
+            name: "gameList"
+          },
           children: [
             {
               //游戏列表
@@ -58,8 +58,8 @@ export default new Router({
               meta: {
                 requireAuth: true
               }
-						},
-						{
+            },
+            {
               //添加游戏
               path: "addGame",
               name: "addGame",
@@ -70,8 +70,8 @@ export default new Router({
               }
             }
           ]
-				},
-				{
+        },
+        {
           //游戏资讯管理
           path: "gameNewsManage",
           name: "gameNewsManage",
@@ -79,10 +79,10 @@ export default new Router({
             import(/* webpackChunkName: "myGame" */ "views/GameNewsManage/GameNewsManage.vue"),
           meta: {
             requireAuth: true
-					},
-					redirect: {
-						name: "gameNewsList"
-					},
+          },
+          redirect: {
+            name: "gameNewsList"
+          },
           children: [
             {
               //游戏资讯列表
@@ -93,8 +93,8 @@ export default new Router({
               meta: {
                 requireAuth: true
               }
-						},
-						{
+            },
+            {
               //添加资讯
               path: "addNews",
               name: "addNews",
@@ -115,8 +115,18 @@ export default new Router({
           meta: {
             requireAuth: true
           }
-				},
-				{
+        },
+        {
+          //游戏图集管理
+          path: "gameGalleryManage",
+          name: "gameGalleryManage",
+          component: () =>
+            import(/* webpackChunkName: "myGame" */ "views/GameGalleryManage/GameGalleryList.vue"),
+          meta: {
+            requireAuth: true
+          }
+        },
+        {
           //游戏类型管理
           path: "gameTypeManage",
           name: "gameTypeManage",
@@ -125,8 +135,8 @@ export default new Router({
           meta: {
             requireAuth: true
           }
-				},
-				{
+        },
+        {
           //游戏厂商管理
           path: "gameCompanyManage",
           name: "gameCompanyManage",
