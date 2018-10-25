@@ -33,13 +33,17 @@ export default {
     },
     total: {
       type: Number
+    },
+    pageSize: {
+      type: Number,
+      default: 16
     }
   },
   data() {
     return {
       searchParams: {
         currentPage: 1,
-        pageSize: 16
+        pageSize: this.pageSize
       }
     };
   },

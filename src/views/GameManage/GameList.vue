@@ -28,7 +28,7 @@
 				<!-- <button @click="detailShow = true"></button> -->
 				<div class="game-list">
 					<el-card v-for="(game,index) in gameList" :key="index" :body-style="{ padding: '0px' }">
-						<div @mouseover="detailShowIndex = index" @mouseout="detailShowIndex=''">
+						<div class="game-wrap" @mouseover="detailShowIndex = index" @mouseout="detailShowIndex=''">
 
 							<transition name="el-zoom-in-center">
 								<div class="game-detail" v-show="detailShowIndex === index">
@@ -71,13 +71,6 @@
 							</transition>
 
 							<img v-lazy="`${baseUrl}${game.game_cover}`" :key="game.game_cover" class="image">
-							<!-- <div style="padding: 10px;">
-								<span class="game-name">{{game.game_name}}</span>
-								<div class="bottom clearfix">
-									<el-button type="text" class="button delete-btn" @click="handleDelete(game.id)">删除</el-button>
-									<el-button type="text" class="button" @click="addGame(game.id)">编辑</el-button>
-								</div>
-							</div> -->
 						</div>
 					</el-card>
 				</div>
@@ -152,7 +145,6 @@ export default {
       userService
         .getRequest("getGameTypeList", { isFilter: 1 })
         .then(response => {
-          
           this.gameTypeList = response.data.list;
         })
         .catch(error => {});
@@ -249,6 +241,15 @@ export default {
 	flex-flow: row;
 	flex-wrap: wrap;
 
+	.game-wrap {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-flow: row;
+		justify-content: center;
+		align-items: center;
+	}
+
 	.el-card {
 		width: 160px;
 		height: 258px;
@@ -332,7 +333,8 @@ export default {
 
 		.image {
 			width: 100%;
-			display: block;
+    	height: 100%;
+			// display: block;
 		}
 	}
 }

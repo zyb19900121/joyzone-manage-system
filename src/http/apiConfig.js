@@ -159,6 +159,7 @@ const apiConfig = {
     method: "DELETE",
     baseUrl
   },
+
   /*----------------------------------------游戏资讯相关接口-----------------------------------------*/
 
   getNewsList: {
@@ -189,6 +190,14 @@ const apiConfig = {
     //删除游戏资讯
     url: "/manage/gameNews",
     method: "DELETE",
+    baseUrl
+  },
+
+  /*----------------------------------------游戏图集相关接口-----------------------------------------*/
+  getGameGalleryList: {
+    //获取游戏图集列表
+    url: "/manage/gameGallery",
+    method: "GET",
     baseUrl
   }
 };
