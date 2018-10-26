@@ -187,13 +187,26 @@ export default {
       this.uploadDialogVisible = false;
       this.$refs.galleryForm.resetFields();
       this.$refs.upload.clearFiles();
+      this.galleryForm.imageList = [];
     },
     saveGallery() {
       this.$refs.galleryForm.validate(valid => {
         if (valid) {
-          console.log("galleryForm: ", this.galleryForm);
+          userService
+            .postRequest("addGameGallery", this.galleryForm)
+            .then(response => {
+              this.$message({
+                type: "success",
+                message: "添加成功!"
+              });
+              this.uploadDialogVisible = false;
+              this.$refs.galleryForm.resetFields();
+              this.$refs.upload.clearFiles();
+              this.galleryForm.imageList = [];
+              this.getGameGalleryList(this.searchParams);
+            })
+            .catch(error => {});
         } else {
-          console.log("invalid");
           return false;
         }
       });
@@ -216,7 +229,6 @@ export default {
       userService
         .uploadRequest("fileUpload", { file: this.file, type: this.fileType })
         .then(response => {
-          console.log("response: ", response);
           let tempObj = {};
           tempObj.uid = response.data.url;
           tempObj.name = response.data.url;

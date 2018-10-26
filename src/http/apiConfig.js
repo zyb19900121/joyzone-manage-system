@@ -199,6 +199,12 @@ const apiConfig = {
     url: "/manage/gameGallery",
     method: "GET",
     baseUrl
+	},
+	addGameGallery: {
+    //添加游戏图片
+    url: "/manage/gameGallery",
+    method: "POST",
+    baseUrl
   },
   deleteGameGalleryImage: {
     //删除游戏图片
