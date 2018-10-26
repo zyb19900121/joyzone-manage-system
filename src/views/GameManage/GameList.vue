@@ -245,7 +245,7 @@ export default {
 		width: 100%;
 		height: 100%;
 		display: flex;
-		flex-flow: row;
+		flex-direction: row;
 		justify-content: center;
 		align-items: center;
 	}
@@ -333,8 +333,7 @@ export default {
 
 		.image {
 			width: 100%;
-    	height: 100%;
-			// display: block;
+			height: 100%;
 		}
 	}
 }
