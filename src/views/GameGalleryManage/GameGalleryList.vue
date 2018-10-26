@@ -4,7 +4,7 @@
 			<SubHeader :pageTitle="pageTitle"></SubHeader>
 			<ConditionFilter>
 				<div class="add-btn">
-					<el-button size="small" round type="primary" @click="uploadImage" v-permission>上传图片</el-button>
+					<el-button size="small" round type="primary" @click="uploadDialogVisible = true" v-permission>上传图片</el-button>
 				</div>
 				<div class="select">
 					<span class="select-label">游戏名称：</span>
@@ -25,9 +25,9 @@
 								<div class="game-detail" v-show="detailShowIndex === index">
 									<div class="detail-info">
 										<div class="info-part">
-											<!-- <p class="game-name">
-												{{game.game_name}}
-											</p> -->
+											<p class="game-name">
+												{{item.game_name}}
+											</p>
 										</div>
 									</div>
 									<div class="operation-area">
@@ -53,6 +53,24 @@
 		</el-footer>
 		<el-dialog :visible.sync="previewDialogVisible">
 			<img width="100%" :src="previewImageUrl" alt="">
+		</el-dialog>
+		<el-dialog title="上传游戏图片" :visible.sync="uploadDialogVisible">
+			<el-form :model="galleryForm" :rules="galleryFormRule" ref="galleryForm">
+				<el-form-item label="图片所属游戏" prop="gameId">
+					<el-select size="small" v-model="galleryForm.gameId" clearable filterable placeholder="请选择游戏">
+						<el-option v-for="(item,index) in gameList" :key="index" :label="item.game_name" :value="item.id">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-upload ref="upload" multiple :http-request="httpRequest" :file-list="galleryForm.imageList" :action="''" list-type="picture-card" :before-upload="beforeUpload" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+					<i class="el-icon-plus"></i>
+				</el-upload>
+
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button size="small" @click="handleCancel">取 消</el-button>
+				<el-button size="small" type="primary" @click="saveGallery">确 定</el-button>
+			</div>
 		</el-dialog>
 	</el-container>
 </template>
@@ -80,8 +98,21 @@ export default {
 
       previewImageUrl: "",
       previewDialogVisible: false,
+      detailShowIndex: "",
 
-      detailShowIndex: ""
+      uploadDialogVisible: false,
+
+      galleryFormRule: {
+        gameId: [{ required: true, message: "请选择所属游戏", trigger: "blur" }]
+      },
+
+      file: "",
+      fileType: "game_gallery",
+
+      galleryForm: {
+        gameId: "",
+        imageList: []
+      }
     };
   },
   created() {
@@ -99,7 +130,6 @@ export default {
         .catch(error => {});
     },
     handleGameSelect(val) {
-      console.log("val: ", val);
       this.searchParams.gameId = val;
       this.getGameGalleryList(this.searchParams);
     },
@@ -121,13 +151,92 @@ export default {
     },
 
     handlePreview(src) {
-      console.log("src: ", src);
       this.previewImageUrl = `${baseUrl}${src}`;
       this.previewDialogVisible = true;
     },
 
     handleDelete(id) {
-      console.log("id: ", id);
+      this.$confirm("您确定是否要删除此图片?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          userService
+            .deleteRequest("deleteGameGalleryImage", id)
+
+            .then(response => {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+              if (
+                this.galleryList.length === 1 &&
+                this.searchParams.currentPage > 1
+              ) {
+                this.searchParams.currentPage =
+                  this.searchParams.currentPage - 1;
+              }
+              this.getGameGalleryList(this.searchParams);
+            })
+            .catch(error => {});
+        })
+        .catch(() => {});
+    },
+    handleCancel() {
+      this.uploadDialogVisible = false;
+      this.$refs.galleryForm.resetFields();
+      this.$refs.upload.clearFiles();
+    },
+    saveGallery() {
+      this.$refs.galleryForm.validate(valid => {
+        if (valid) {
+          console.log("galleryForm: ", this.galleryForm);
+        } else {
+          console.log("invalid");
+          return false;
+        }
+      });
+    },
+    beforeUpload(file) {
+      this.file = file;
+      let types = ["image/jpeg", "image/png", "image/gif"];
+      const isType = types.includes(file.type);
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isType) {
+        this.$message.error("上传游戏封面只能是JPG或PNG格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传游戏封大小不能超过2MB!");
+      }
+      return isType && isLt2M;
+    },
+    httpRequest() {
+      userService
+        .uploadRequest("fileUpload", { file: this.file, type: this.fileType })
+        .then(response => {
+          console.log("response: ", response);
+          let tempObj = {};
+          tempObj.uid = response.data.url;
+          tempObj.name = response.data.url;
+          tempObj.url = this.baseUrl + response.data.url;
+          tempObj.realUrl = response.data.url;
+          this.galleryForm.imageList.push(tempObj);
+          // this.newsForm.newsThumbnail = response.data.url;
+        })
+        .catch(error => {});
+    },
+    handleRemove(file, fileList) {
+      // this.galleryForm.imageList.splice(
+      //   this.galleryForm.imageList.findIndex(item => item.uid === file.uid),
+      //   1
+      // );
+      this.galleryForm.imageList = fileList;
+    },
+    handlePictureCardPreview(file) {
+      this.previewImageUrl = file.url;
+      this.previewDialogVisible = true;
     }
   },
   components: {
