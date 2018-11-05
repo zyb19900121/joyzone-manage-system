@@ -199,8 +199,8 @@ const apiConfig = {
     url: "/manage/gameGallery",
     method: "GET",
     baseUrl
-	},
-	addGameGallery: {
+  },
+  addGameGallery: {
     //添加游戏图片
     url: "/manage/gameGallery",
     method: "POST",
@@ -211,7 +211,22 @@ const apiConfig = {
     url: "/manage/gameGallery",
     method: "DELETE",
     baseUrl
+  },
+
+  /*----------------------------------------游戏攻略相关接口-----------------------------------------*/
+  getGameStrategyList: {
+    //获取游戏图集列表
+    url: "/manage/gameStrategy",
+    method: "GET",
+    baseUrl
+	},
+	deleteGameStrategy: {
+    //获取游戏图集列表
+    url: "/manage/gameStrategy",
+    method: "DELETE",
+    baseUrl
   }
+	
 };
 
 export { baseUrl, apiConfig };

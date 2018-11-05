@@ -105,6 +105,41 @@ export default new Router({
               }
             }
           ]
+				},
+				{
+          //游戏攻略管理
+          path: "gameStrategyManage",
+          name: "gameStrategyManage",
+          component: () =>
+            import(/* webpackChunkName: "myGame" */ "views/GameStrategyManage/GameStrategyManage.vue"),
+          meta: {
+            requireAuth: true
+          },
+          redirect: {
+            name: "gameStrategyList"
+          },
+          children: [
+            {
+              //游戏攻略列表
+              path: "gameStrategyList",
+              name: "gameStrategyList",
+              component: () =>
+                import(/* webpackChunkName: "myGame" */ "views/GameStrategyManage/GameStrategyList.vue"),
+              meta: {
+                requireAuth: true
+              }
+            },
+            {
+              //添加资讯
+              path: "addNews",
+              name: "addNews",
+              component: () =>
+                import(/* webpackChunkName: "myGame" */ "views/GameNewsManage/AddNews.vue"),
+              meta: {
+                requireAuth: true
+              }
+            }
+          ]
         },
         {
           //添加游戏
