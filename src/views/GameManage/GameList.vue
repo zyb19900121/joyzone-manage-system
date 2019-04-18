@@ -1,85 +1,117 @@
 <template>
-	<el-container class="sub-page game-manage">
-		<el-header>
-			<SubHeader :pageTitle="pageTitle"></SubHeader>
-			<ConditionFilter ref="conditionFilter" showAddBtn showSelect showKeywordSearch addBtnName="添加游戏" selectName="排序：" :selectionOptions="orderByOptions" optionLabel="label" optionValue="value" @addGame="addGame" @refreshData="refreshData">
-				<el-checkbox v-model="searchParams.isSold" @change="handleIsSoldSelect">已发售</el-checkbox>
+  <el-container class="sub-page game-manage">
+    <el-header>
+      <SubHeader :pageTitle="pageTitle"></SubHeader>
+      <ConditionFilter
+        ref="conditionFilter"
+        showAddBtn
+        showSelect
+        showKeywordSearch
+        addBtnName="添加游戏"
+        selectName="排序："
+        :selectionOptions="orderByOptions"
+        optionLabel="label"
+        optionValue="value"
+        @addGame="addGame"
+        @refreshData="refreshData"
+      >
+        <el-checkbox v-model="searchParams.isSold" @change="handleIsSoldSelect">已发售</el-checkbox>
 
-				<div class="select">
-					<span class="select-label">游戏平台：</span>
-					<el-select size="small" v-model="searchParams.platform" placeholder="请选择" @change="handlePlatformSelect" clearable>
-						<el-option v-for="(item,index) in platformList" :key="index" :label="item" :value="item">
-						</el-option>
-					</el-select>
-				</div>
+        <div class="select">
+          <span class="select-label">游戏平台：</span>
+          <el-select
+            size="small"
+            v-model="searchParams.platform"
+            placeholder="请选择"
+            @change="handlePlatformSelect"
+            clearable
+          >
+            <el-option
+              v-for="(item,index) in platformList"
+              :key="index"
+              :label="item"
+              :value="item"
+            ></el-option>
+          </el-select>
+        </div>
 
-				<div class="select">
-					<span class="select-label">游戏类型：</span>
-					<el-select size="small" v-model="searchParams.gameType" placeholder="请选择" @change="handleGameTypeSelect" clearable>
-						<el-option v-for="(item,index) in gameTypeList" :key="index" :label="item.type_name_cn" :value="item.type_name_cn">
-						</el-option>
-					</el-select>
-				</div>
+        <div class="select">
+          <span class="select-label">游戏类型：</span>
+          <el-select
+            size="small"
+            v-model="searchParams.gameType"
+            placeholder="请选择"
+            @change="handleGameTypeSelect"
+            clearable
+          >
+            <el-option
+              v-for="(item,index) in gameTypeList"
+              :key="index"
+              :label="item.type_name_cn"
+              :value="item.type_name_cn"
+            ></el-option>
+          </el-select>
+        </div>
+      </ConditionFilter>
+    </el-header>
+    <el-scrollbar style="height:100%;">
+      <el-main>
+        <!-- <button @click="detailShow = true"></button> -->
+        <div class="game-list">
+          <el-card v-for="(game,index) in gameList" :key="index" :body-style="{ padding: '0px' }">
+            <div
+              class="game-wrap"
+              @mouseover="detailShowIndex = index"
+              @mouseout="detailShowIndex=''"
+            >
+              <transition name="el-zoom-in-center">
+                <div class="game-detail" v-show="detailShowIndex === index">
+                  <div class="detail-info">
+                    <div class="info-part">
+                      <p class="game-name">{{game.game_name}}</p>
+                      <p class="game-name-en">{{game.game_name_en}}</p>
+                    </div>
 
-			</ConditionFilter>
-		</el-header>
-		<el-scrollbar style="height:100%;">
-			<el-main>
-				<!-- <button @click="detailShow = true"></button> -->
-				<div class="game-list">
-					<el-card v-for="(game,index) in gameList" :key="index" :body-style="{ padding: '0px' }">
-						<div class="game-wrap" @mouseover="detailShowIndex = index" @mouseout="detailShowIndex=''">
+                    <div class="info-part">
+                      <p class="game-score">{{Number(game.game_score).toFixed(1) }}</p>
+                    </div>
 
-							<transition name="el-zoom-in-center">
-								<div class="game-detail" v-show="detailShowIndex === index">
-									<div class="detail-info">
-										<div class="info-part">
-											<p class="game-name">
-												{{game.game_name}}
-											</p>
-											<p class="game-name-en">
-												{{game.game_name_en}}
-											</p>
-										</div>
+                    <div class="info-part">
+                      <p class="game-type">类型：{{game.game_type}}</p>
+                      <p class="sale-date">发售日期：{{game.sale_date}}</p>
+                    </div>
+                  </div>
+                  <div class="operation-area">
+                    <el-button type="text" class="button" @click="addGame(game.id)" v-permission>
+                      <i class="iconfont icon-edit"></i>
+                    </el-button>
+                    <el-button
+                      type="text"
+                      class="delete-btn"
+                      @click="handleDelete(game.id)"
+                      v-permission
+                    >
+                      <i class="iconfont icon-delete"></i>
+                    </el-button>
+                  </div>
+                </div>
+              </transition>
 
-										<div class="info-part">
-											<p class="game-score">
-												{{Number(game.game_score).toFixed(1) }}
-											</p>
-										</div>
-
-										<div class="info-part">
-											<p class="game-type">
-												类型：{{game.game_type}}
-											</p>
-											<p class="sale-date">
-												发售日期：{{game.sale_date}}
-											</p>
-										</div>
-
-									</div>
-									<div class="operation-area">
-										<el-button type="text" class="button" @click="addGame(game.id)" v-permission>
-											<i class="iconfont icon-edit"></i>
-										</el-button>
-										<el-button type="text" class="delete-btn" @click="handleDelete(game.id)" v-permission>
-											<i class="iconfont icon-delete"></i>
-										</el-button>
-									</div>
-
-								</div>
-							</transition>
-
-							<img v-lazy="`${baseUrl}${game.game_cover}`" :key="game.game_cover" class="image">
-						</div>
-					</el-card>
-				</div>
-			</el-main>
-		</el-scrollbar>
-		<el-footer>
-			<SubFooter ref="subFooter" :showPagination="Boolean(gameTotal)" :total="gameTotal" @refreshData="refreshData"></SubFooter>
-		</el-footer>
-	</el-container>
+              <img v-lazy="`${baseUrl}${game.game_cover}`" :key="game.game_cover" class="image">
+            </div>
+          </el-card>
+        </div>
+      </el-main>
+    </el-scrollbar>
+    <el-footer>
+      <SubFooter
+        ref="subFooter"
+        :showPagination="Boolean(gameTotal)"
+        :total="gameTotal"
+        @refreshData="refreshData"
+      ></SubFooter>
+    </el-footer>
+  </el-container>
 </template>
 
 <script type='es6'>
@@ -237,104 +269,104 @@ export default {
 @import '~src/assets/stylus/variable.styl';
 
 .game-list {
-	display: flex;
-	flex-flow: row;
-	flex-wrap: wrap;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
 
-	.game-wrap {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-	}
+  .game-wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
 
-	.el-card {
-		width: 160px;
-		height: 258px;
-		margin: 25px;
-		position: relative;
+  .el-card {
+    width: 160px;
+    height: 258px;
+    margin: 25px;
+    position: relative;
 
-		.game-detail {
-			transition: all ease 0.5s;
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			padding: 10px;
-			box-sizing: border-box;
-			background-color: rgba(0, 0, 0, 0.7);
-			display: flex;
-			flex-flow: column;
+    .game-detail {
+      transition: all ease 0.5s;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      background-color: rgba(0,0,0,0.7);
+      display: flex;
+      flex-flow: column;
 
-			.detail-info {
-				height: 100%;
-				text-align: center;
-				font-size: $font-size-small-x;
-				display: flex;
-				justify-content: space-between;
-				flex-flow: column;
+      .detail-info {
+        height: 198px;
+        text-align: center;
+        font-size: $font-size-small-x;
+        display: flex;
+        justify-content: space-between;
+        flex-flow: column;
 
-				.game-name {
-					line-height: 1.5;
-				}
+        .game-name {
+          line-height: 1.5;
+        }
 
-				.game-name-en {
-					margin-top: 10px;
-				}
+        .game-name-en {
+          margin-top: 10px;
+        }
 
-				.game-score {
-					font-size: 36px;
-					color: $color-danger;
-				}
+        .game-score {
+          font-size: 36px;
+          color: $color-danger;
+        }
 
-				.game-type {
-					margin-top: 10px;
-					line-height: 1.5;
-				}
+        .game-type {
+          margin-top: 10px;
+          line-height: 1.5;
+        }
 
-				.sale-date {
-					margin-top: 10px;
-				}
-			}
+        .sale-date {
+          margin-top: 10px;
+        }
+      }
 
-			.operation-area {
-				height: 40px;
-				text-align: center;
+      .operation-area {
+        height: 40px;
+        text-align: center;
 
-				i {
-					margin: 0 20px;
-					color: #fff;
-				}
+        i {
+          margin: 0 20px;
+          color: #fff;
+        }
 
-				.icon-edit {
-					&:hover {
-						color: $color-primary;
-					}
-				}
+        .icon-edit {
+          &:hover {
+            color: $color-primary;
+          }
+        }
 
-				.icon-delete {
-					&:hover {
-						color: $color-danger;
-					}
-				}
-			}
+        .icon-delete {
+          &:hover {
+            color: $color-danger;
+          }
+        }
+      }
 
-			p {
-				color: #fff;
-			}
-		}
+      p {
+        color: #fff;
+      }
+    }
 
-		.game-name {
-			color: $color-text-s;
-			font-size: $font-size-small;
-			text-shadow: 1px 1px 10px $color-text-t;
-		}
+    .game-name {
+      color: $color-text-s;
+      font-size: $font-size-small;
+      text-shadow: 1px 1px 10px $color-text-t;
+    }
 
-		.image {
-			width: 100%;
-			height: 100%;
-		}
-	}
+    .image {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 </style>
